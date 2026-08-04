@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mustafa Durmuş</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #020104;
+    --border: rgba(255,255,255,0.09);
+    --text: #f2f1f6;
+    --text-muted: #99969f;
+    --teal: #2dd4bf;
+    --cyan: #22d3ee;
+    --violet: #a855f7;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    user-select: none; 
+  }
+
+  section{ scroll-margin-top: 5.5rem; }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.05rem 2rem;
+    background: rgba(2,1,4,0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span{ color: var(--teal); }
+
+  .nav-links{ display: flex; gap: 2rem; }
+  .nav-links a{
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.25s ease;
+  }
+  .nav-links a:hover{ color: var(--text); }
+
+  /* ---------- DİKEY MARKA İMZASI ---------- */
+  .brand-vertical {
+    position: fixed;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.6em;
+    color: rgba(255,255,255,0.15);
+    z-index: 40;
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+    cursor: default;
+  }
+  .brand-vertical:hover {
+    color: var(--cyan);
+    text-shadow: 0 0 15px rgba(34,211,238,0.5);
+  }
+
+  /* ---------- HERO & ULTIMATE CANVAS UZAYI ---------- */
+  .hero{
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0 1.5rem;
+    cursor: crosshair;
+  }
+
+  .space-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .deep-nebula {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(168,85,247,0.07) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(34,211,238,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  .warp-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.35);
+    z-index: 5;
+    pointer-events: none;
+    animation: pulseHint 2s infinite alternate;
+  }
+  @keyframes pulseHint {
+    from { opacity: 0.2; letter-spacing: 0.2em; }
+    to { opacity: 0.7; letter-spacing: 0.3em; }
+  }
+
+  /* Ekran sarsıntısı efekti için sarmalayıcı */
+  .hero-shake-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  .intro{
+    text-align: center;
+    opacity: 0;
+    animation: smoothRise 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .name{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 2rem;
+    text-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+
+  .name span{
+    background: linear-gradient(110deg, #ffffff 10%, var(--teal) 50%, var(--cyan) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  @keyframes smoothRise {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); filter: blur(8px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+
+  .stats-strip{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.85rem;
+    opacity: 0;
+    animation: smoothRise 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.3s;
+    pointer-events: auto;
+  }
+
+  .stat-pill{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+  }
+  .stat-pill:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--cyan);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(34,211,238,0.2);
+  }
+
+  /* ---------- OYUNLAR BÖLÜMÜ ---------- */
+  .games-section{
+    position: relative;
+    z-index: 3;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem 7rem;
+  }
+
+  .section-eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.6rem, 4vw, 2.35rem);
+    text-align: center;
+    margin-bottom: 3.25rem;
+  }
+
+  .cards-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 720px){ .cards-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px){ .cards-grid{ grid-template-columns: 1fr; } }
+
+  .game-card{
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    aspect-ratio: 3 / 4;
+    background: rgba(255,255,255,0.02);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+  .game-card:hover{
+    transform: translateY(-6px);
+    border-color: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .game-logo-placeholder{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.25em;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    opacity: 0.4;
+    transition: opacity 0.5s ease;
+  }
+  .game-card:hover .game-logo-placeholder{ opacity: 0.05; }
+
+  .game-overlay{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    background: linear-gradient(180deg, transparent 20%, rgba(2,1,4,0.8) 65%, rgba(2,1,4,0.98) 100%);
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .game-card:hover .game-overlay{ 
+    opacity: 1; 
+    transform: translateY(0);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .game-info h3{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+    color: #fff;
+  }
+  .game-info p{
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .play-circle{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -30%) scale(0.85);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 1.1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .game-card:hover .play-circle{
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, 
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, 
+                background 0.3s ease, border-color 0.3s ease;
+  }
+  .play-circle:hover{ 
+    background: rgba(255,255,255,0.15); 
+    border-color: #fff;
+    box-shadow: 0 0 20px rgba(45,212,191,0.4);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 2.5rem 1.5rem 3rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    border-top: 1px solid var(--border);
+  }
+  footer a{
+    color: var(--text-muted);
+    text-decoration: none;
+    margin: 0 0.6rem;
+    transition: color 0.25s ease;
+  }
+  footer a:hover{ color: var(--cyan); }
+</style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a class="nav-logo" href="#hero">Mustafa<span>.</span></a>
+    <div class="nav-links">
+      <a href="#hero">Anasayfa</a>
+      <a href="#oyunlar">Projeler</a>
+      <a href="#iletisim">İletişim</a>
+    </div>
+  </nav>
+
+  <div class="brand-vertical">DARIZX</div>
+
+  <section class="hero" id="hero">
+    
+    <div class="deep-nebula"></div>
+    <canvas id="spaceCanvas" class="space-canvas"></canvas>
+    
+    <div class="warp-hint">[ BASILI TUT: HYPER-WARP AKTİF ]</div>
+
+    <div class="hero-shake-wrapper" id="shakeWrapper">
+      <div class="intro">
+        <h1 class="name">Mustafa <span>Durmuş</span></h1>
+      </div>
+
+      <div class="stats-strip">
+        <span class="stat-pill">🎮 Unity Developer</span>
+        <span class="stat-pill">⚙️ C# / .NET</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="games-section" id="oyunlar">
+    <p class="section-eyebrow">Projeler</p>
+    <h2 class="section-title">Oynamaya Hazır Olun</h2>
+
+    <div class="cards-grid">
+      <article class="game-card">
+        <div class="game-logo-placeholder">ROADBOUND<br>ALIEN</div>
+        <div class="game-overlay">
+          <div class="game-info">
+            <h3>Roadbound Alien</h3>
+            <p>Galaksiler arası maceraya atıl.</p>
+          </div>
+        </div>
+        <div class="play-circle" aria-hidden="true">▶</div>
+      </article>
+
+      <article class="game-card">
+        <div class="game-logo-placeholder">CHAIN<br>FEVER</div>
+        <div class="game-overlay">
+          <div class="game-info">
+            <h3>Chain Fever</h3>
+            <p>Aynı renkteki blokları patlatarak ilerlediğin sürükleyici bir bulmaca.</p>
+          </div>
+        </div>
+        <div class="play-circle" aria-hidden="true">▶</div>
+      </article>
+
+      <article class="game-card">
+        <div class="game-logo-placeholder">YENİ OYUN<br>YAKINDA</div>
+        <div class="game-overlay">
+          <div class="game-info">
+            <h3>Gizli Proje</h3>
+            <p>Yeni bir macera yolda...</p>
+          </div>
+        </div>
+        <div class="play-circle" aria-hidden="true">▶</div>
+      </article>
+    </div>
+  </section>
+
+  <footer id="iletisim">
+    <span>© 2026 Mustafa Durmuş</span>
+    <a href="#">Mail</a>
+    <a href="#">itch.io</a>
+    <a href="#">GitHub</a>
+  </footer>
+
+  <!-- ULTIMATE CANVAS MOTORU (WARP SHAKE + GRAVİTASYON) -->
+  <script>
+    const canvas = document.getElementById('spaceCanvas');
+    const ctx = canvas.getContext('2d');
+    const shakeWrapper = document.getElementById('shakeWrapper');
+    let width, height, cx, cy;
+    
+    let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+    let realMouseX = 0, realMouseY = 0;
+    let baseSpeed = 0.6;
+    let speed = baseSpeed;
+    let targetSpeed = baseSpeed;
+    let globalAngle = 0;
+
+    const starColors = ['#ffffff', '#b6fbf1', '#22d3ee', '#fde047', '#f8fafc', '#a855f7'];
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      cx = width / 2;
+      cy = height / 2;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    document.addEventListener('mousemove', (e) => {
+      realMouseX = e.clientX;
+      realMouseY = e.clientY;
+      mouseX = (e.clientX - cx) * 0.1; 
+      mouseY = (e.clientY - cy) * 0.1;
+    });
+
+    const heroSection = document.getElementById('hero');
+    
+    // Warp hızına geçiş ve ekran sarsıntısı tetikleyicileri
+    const triggerWarpOn = () => targetSpeed = 45;
+    const triggerWarpOff = () => targetSpeed = baseSpeed;
+
+    heroSection.addEventListener('mousedown', triggerWarpOn);
+    heroSection.addEventListener('mouseup', triggerWarpOff);
+    heroSection.addEventListener('mouseleave', triggerWarpOff);
+    
+    heroSection.addEventListener('touchstart', triggerWarpOn, {passive: true});
+    heroSection.addEventListener('touchend', triggerWarpOff, {passive: true});
+
+    const stars = [];
+    const numStars = 700; // Yoğunluk zirvede
+
+    class Star {
+      constructor() {
+        this.reset(true);
+      }
+      
+      reset(initial = false) {
+        this.x = (Math.random() - 0.5) * width * 3.5;
+        this.y = (Math.random() - 0.5) * height * 3.5;
+        this.z = initial ? Math.random() * width : width;
+        this.size = Math.random() * 1.6 + 0.3;
+        this.color = starColors[Math.floor(Math.random() * starColors.length)];
+        this.isGlowing = Math.random() < 0.18; 
+      }
+      
+      update() {
+        this.pz = this.z;
+        this.z -= speed;
+        
+        if (this.z < 1) {
+          this.reset();
+          this.pz = this.z;
+        }
+      }
+      
+      draw() {
+        let cos = Math.cos(globalAngle);
+        let sin = Math.sin(globalAngle);
+        
+        let rotX = this.x * cos - this.y * sin;
+        let rotY = this.y * cos + this.x * sin;
+
+        let offsetX = rotX - targetX * (width / this.z);
+        let offsetY = rotY - targetY * (width / this.z);
+
+        let sx = (offsetX / this.z) * width + cx;
+        let sy = (offsetY / this.z) * height + cy;
+        
+        let pOffsetX = rotX - targetX * (width / this.pz);
+        let pOffsetY = rotY - targetY * (width / this.pz);
+        let px = (pOffsetX / this.pz) * width + cx;
+        let py = (pOffsetY / this.pz) * height + cy;
+
+        let r = this.size * (width / this.z);
+        
+        if (sx < 0 || sx > width || sy < 0 || sy > height) return;
+
+        let alpha = Math.min(1, (1 - this.z / width) + 0.15);
+
+        if (speed > 10) {
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(sx, sy);
+          ctx.lineWidth = r * 1.2;
+          ctx.strokeStyle = this.color;
+          ctx.globalAlpha = alpha;
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        } else {
+          ctx.beginPath();
+          ctx.arc(sx, sy, r, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = alpha;
+          
+          if (this.isGlowing) {
+            ctx.shadowBlur = r * 5;
+            ctx.shadowColor = this.color;
+          } else {
+            ctx.shadowBlur = 0;
+          }
+          
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          ctx.shadowBlur = 0;
+        }
+      }
+    }
+
+    for (let i = 0; i < numStars; i++) stars.push(new Star());
+
+    function animate() {
+      speed += (targetSpeed - speed) * 0.06;
+      targetX += (mouseX - targetX) * 0.08;
+      targetY += (mouseY - targetY) * 0.08;
+      globalAngle += 0.0004;
+
+      // Warp hızındayken ekrana dinamik sarsıntı (Screen Shake) ver
+      if (speed > 15) {
+        let shakeX = (Math.random() - 0.5) * (speed * 0.15);
+        let shakeY = (Math.random() - 0.5) * (speed * 0.15);
+        shakeWrapper.style.transform = `translate(${shakeX}px, ${shakeY}px)`;
+      } else {
+        shakeWrapper.style.transform = `translate(0px, 0px)`;
+      }
+
+      ctx.clearRect(0, 0, width, height);
+
+      stars.forEach(star => {
+        star.update();
+        star.draw();
+      });
+
+      requestAnimationFrame(animate);
+    }
+    
+    animate();
+  </script>
+
+</body>
+</html>
