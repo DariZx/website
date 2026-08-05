@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mustafa Durmuş</title>
+<title>Mustafa Durmuş - Unity Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #020104;
-    --border: rgba(255,255,255,0.09);
+    --bg: #050507;
+    --border: rgba(255,255,255,0.06);
     --text: #f2f1f6;
-    --text-muted: #99969f;
+    --text-muted: #8b8994;
     --teal: #2dd4bf;
     --cyan: #22d3ee;
-    --violet: #a855f7;
   }
 
   *{ margin:0; padding:0; box-sizing:border-box; }
@@ -41,9 +40,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.05rem 2rem;
-    background: rgba(2,1,4,0.4);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(5, 5, 7, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
 
@@ -76,17 +75,14 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.75rem;
     letter-spacing: 0.6em;
-    color: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.08);
     z-index: 40;
-    transition: color 0.4s ease, text-shadow 0.4s ease;
+    transition: color 0.4s ease;
     cursor: default;
   }
-  .brand-vertical:hover {
-    color: var(--cyan);
-    text-shadow: 0 0 15px rgba(34,211,238,0.5);
-  }
+  .brand-vertical:hover { color: var(--cyan); }
 
-  /* ---------- HERO & CANVAS ---------- */
+  /* ---------- HERO & PREMIUM CANVAS ---------- */
   .hero{
     position: relative;
     min-height: 100vh;
@@ -105,24 +101,7 @@
     z-index: 0;
     width: 100%;
     height: 100%;
-  }
-
-  .deep-nebula {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background: 
-      radial-gradient(circle at 20% 30%, rgba(168,85,247,0.08) 0%, transparent 60%),
-      radial-gradient(circle at 80% 70%, rgba(34,211,238,0.07) 0%, transparent 60%);
-    background-size: 150% 150%;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    animation: cosmicDrift 15s ease-in-out infinite alternate;
-  }
-
-  @keyframes cosmicDrift {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 100% 100%; }
+    background: radial-gradient(circle at center, #0f111a 0%, #050507 100%);
   }
 
   .warp-hint {
@@ -133,17 +112,17 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
     letter-spacing: 0.25em;
-    color: rgba(255,255,255,0.35);
+    color: rgba(45, 212, 191, 0.4);
     z-index: 5;
     pointer-events: none;
     animation: pulseHint 2s infinite alternate;
   }
   @keyframes pulseHint {
     from { opacity: 0.2; letter-spacing: 0.2em; }
-    to { opacity: 0.7; letter-spacing: 0.3em; }
+    to { opacity: 0.8; letter-spacing: 0.3em; text-shadow: 0 0 8px rgba(34,211,238,0.3); }
   }
 
-  .hero-shake-wrapper {
+  .hero-wrapper {
     position: relative;
     z-index: 2;
     display: flex;
@@ -155,7 +134,7 @@
   .intro{
     text-align: center;
     opacity: 0;
-    animation: smoothRise 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: smoothRise 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .name{
@@ -166,7 +145,6 @@
     letter-spacing: -0.03em;
     color: #fff;
     margin-bottom: 2rem;
-    text-shadow: 0 10px 40px rgba(0,0,0,0.5);
   }
 
   .name span{
@@ -177,8 +155,8 @@
   }
 
   @keyframes smoothRise {
-    from { opacity: 0; transform: translateY(30px) scale(0.97); filter: blur(8px); }
-    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .stats-strip{
@@ -187,7 +165,7 @@
     justify-content: center;
     gap: 0.85rem;
     opacity: 0;
-    animation: smoothRise 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: smoothRise 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     animation-delay: 0.3s;
     pointer-events: auto;
   }
@@ -205,8 +183,8 @@
     transition: all 0.3s ease;
   }
   .stat-pill:hover {
-    background: rgba(255,255,255,0.08);
-    border-color: var(--cyan);
+    background: rgba(255,255,255,0.05);
+    border-color: var(--teal);
     color: #fff;
     box-shadow: 0 0 15px rgba(34,211,238,0.2);
   }
@@ -254,14 +232,14 @@
     overflow: hidden;
     border: 1px solid var(--border);
     aspect-ratio: 3 / 4;
-    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(20,20,30,0.8) 100%);
+    background: #0f111a;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
   }
   
   .game-card:hover{
     transform: translateY(-6px);
-    border-color: rgba(255,255,255,0.2);
+    border-color: rgba(45, 212, 191, 0.3);
     box-shadow: 0 20px 40px rgba(0,0,0,0.6);
   }
 
@@ -276,7 +254,7 @@
   }
   
   .game-card:hover .game-image {
-    transform: scale(1.1);
+    transform: scale(1.08);
   }
 
   .game-overlay{
@@ -286,7 +264,7 @@
     display: flex;
     align-items: flex-end;
     padding: 1.5rem;
-    background: linear-gradient(180deg, transparent 10%, rgba(2,1,4,0.6) 50%, rgba(2,1,4,0.98) 100%);
+    background: linear-gradient(180deg, transparent 10%, rgba(5,5,7,0.7) 50%, rgba(5,5,7,0.98) 100%);
     opacity: 0;
     transform: translateY(15px);
     transition: opacity 0.4s ease, transform 0.4s ease;
@@ -324,9 +302,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(2,1,4,0.6);
+    background: rgba(5,5,7,0.6);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.15);
     color: #fff;
     font-size: 1.2rem;
     opacity: 0;
@@ -338,15 +316,13 @@
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
     pointer-events: auto;
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, 
-                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, 
-                background 0.3s ease, border-color 0.3s ease;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, 
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
   }
   
   .play-circle:hover{ 
-    background: rgba(255,255,255,0.15); 
-    border-color: #fff;
-    box-shadow: 0 0 20px rgba(45,212,191,0.4);
+    background: rgba(255,255,255,0.1); 
+    border-color: var(--teal);
   }
 
   /* ---------- FOOTER ---------- */
@@ -384,12 +360,10 @@
   <div class="brand-vertical">DARIZX</div>
 
   <section class="hero" id="hero">
-    <div class="deep-nebula"></div>
     <canvas id="spaceCanvas" class="space-canvas"></canvas>
+    <div class="warp-hint">[ BASILI TUT: SİBER-WARP AKTİF ]</div>
     
-    <div class="warp-hint">[ BASILI TUT: HYPER-WARP AKTİF ]</div>
-
-    <div class="hero-shake-wrapper" id="shakeWrapper">
+    <div class="hero-wrapper" id="shakeWrapper">
       <div class="intro">
         <h1 class="name">Mustafa <span>Durmuş</span></h1>
       </div>
@@ -407,7 +381,7 @@
 
     <div class="cards-grid">
       <!-- ROADBOUND ALIEN -->
-      <a href="https://play.google.com/store/apps/details?id=com.darizx.gamealien&hl=tr" target="_blank" rel="noopener noreferrer" class="game-card">
+      <a href="https://play.google.com/store/apps/details?id=com.darizx.gamealien&hl=tr" target="_blank" class="game-card">
         <img src="alien.jpg" alt="Roadbound Alien" class="game-image">
         <div class="game-overlay">
           <div class="game-info">
@@ -415,11 +389,11 @@
             <p>Galaksiler arası maceraya atıl.</p>
           </div>
         </div>
-        <div class="play-circle" aria-hidden="true">🎮</div>
+        <div class="play-circle">🎮</div>
       </a>
 
       <!-- LEXY LETTER -->
-      <a href="https://play.google.com/store/apps/details?id=com.DariZxStudio.LexyLetter" target="_blank" rel="noopener noreferrer" class="game-card">
+      <a href="https://play.google.com/store/apps/details?id=com.DariZxStudio.LexyLetter" target="_blank" class="game-card">
         <img src="lexy.jpg" alt="Lexy Letter" class="game-image">
         <div class="game-overlay">
           <div class="game-info">
@@ -427,11 +401,11 @@
             <p>15 farklı dil desteğiyle zamana karşı yarışarak kelimeleri patlat!</p>
           </div>
         </div>
-        <div class="play-circle" aria-hidden="true">🎮</div>
+        <div class="play-circle">🎮</div>
       </a>
 
       <!-- CHAIN FEVER -->
-      <a href="https://play.google.com/store/apps/details?id=com.darizx.chainfever" target="_blank" rel="noopener noreferrer" class="game-card">
+      <a href="https://play.google.com/store/apps/details?id=com.darizx.chainfever" target="_blank" class="game-card">
         <img src="chain.jpg" alt="Chain Fever" class="game-image">
         <div class="game-overlay">
           <div class="game-info">
@@ -439,214 +413,187 @@
             <p>Aynı renkteki blokları patlatarak ilerlediğin sürükleyici bir bulmaca.</p>
           </div>
         </div>
-        <div class="play-circle" aria-hidden="true">🎮</div>
+        <div class="play-circle">🎮</div>
       </a>
     </div>
   </section>
 
   <footer id="iletisim">
     <span>© 2026 Mustafa Durmuş</span>
-    <a href="mailto:#">Mail</a>
-    <a href="https://github.com/DariZx" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="mailto:ornek@gmail.com">Mail</a>
+    <a href="https://github.com/DariZx" target="_blank">GitHub</a>
   </footer>
 
   <script>
     const canvas = document.getElementById('spaceCanvas');
     const ctx = canvas.getContext('2d');
     const shakeWrapper = document.getElementById('shakeWrapper');
-    let width, height, cx, cy;
+    let width, height;
+    let particles = [];
     
-    let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
-    let baseSpeed = 0.6;
-    let speed = baseSpeed;
-    let targetSpeed = baseSpeed;
-    let globalAngle = 0;
-
-    const starColors = ['#ffffff', '#b6fbf1', '#22d3ee', '#fde047', '#f8fafc', '#a855f7'];
+    let mouse = { x: null, y: null, radius: 120 };
+    
+    // Siber-Warp değişkenleri
+    let isWarping = false;
+    let warpSpeed = 0;
 
     function resize() {
       width = window.innerWidth;
       height = window.innerHeight;
-      cx = width / 2;
-      cy = height / 2;
       canvas.width = width;
       canvas.height = height;
+      init();
     }
     window.addEventListener('resize', resize);
-    resize();
 
+    // Etkileşimler
     document.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX - cx) * 0.1; 
-      mouseY = (e.clientY - cy) * 0.1;
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     });
+    document.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
 
     const heroSection = document.getElementById('hero');
-    
-    const triggerWarpOn = () => targetSpeed = 45;
-    const triggerWarpOff = () => targetSpeed = baseSpeed;
+    heroSection.addEventListener('mousedown', () => isWarping = true);
+    heroSection.addEventListener('mouseup', () => isWarping = false);
+    heroSection.addEventListener('mouseleave', () => isWarping = false);
+    heroSection.addEventListener('touchstart', () => isWarping = true, {passive: true});
+    heroSection.addEventListener('touchend', () => isWarping = false, {passive: true});
 
-    heroSection.addEventListener('mousedown', triggerWarpOn);
-    heroSection.addEventListener('mouseup', triggerWarpOff);
-    heroSection.addEventListener('mouseleave', triggerWarpOff);
-    
-    heroSection.addEventListener('touchstart', triggerWarpOn, {passive: true});
-    heroSection.addEventListener('touchend', triggerWarpOff, {passive: true});
-
-    const stars = [];
-    const numStars = 700; 
-    let comets = [];
-
-    class Star {
-      constructor() { this.reset(true); }
-      reset(initial = false) {
-        this.x = (Math.random() - 0.5) * width * 3.5;
-        this.y = (Math.random() - 0.5) * height * 3.5;
-        this.z = initial ? Math.random() * width : width;
-        this.size = Math.random() * 1.6 + 0.3;
-        this.color = starColors[Math.floor(Math.random() * starColors.length)];
-        this.isGlowing = Math.random() < 0.18; 
+    class Particle {
+      constructor() {
+        this.reset();
       }
-      update() {
-        this.pz = this.z;
-        this.z -= speed;
-        if (this.z < 1) {
-          this.reset();
-          this.pz = this.z;
-        }
-      }
-      draw() {
-        let cos = Math.cos(globalAngle);
-        let sin = Math.sin(globalAngle);
-        
-        let rotX = this.x * cos - this.y * sin;
-        let rotY = this.y * cos + this.x * sin;
-
-        let offsetX = rotX - targetX * (width / this.z);
-        let offsetY = rotY - targetY * (width / this.z);
-
-        let sx = (offsetX / this.z) * width + cx;
-        let sy = (offsetY / this.z) * height + cy;
-        
-        let pOffsetX = rotX - targetX * (width / this.pz);
-        let pOffsetY = rotY - targetY * (width / this.pz);
-        let px = (pOffsetX / this.pz) * width + cx;
-        let py = (pOffsetY / this.pz) * height + cy;
-
-        let r = this.size * (width / this.z);
-        
-        if (sx < 0 || sx > width || sy < 0 || sy > height) return;
-
-        let alpha = Math.min(1, (1 - this.z / width) + 0.15);
-
-        if (speed > 10) {
-          ctx.beginPath();
-          ctx.moveTo(px, py);
-          ctx.lineTo(sx, sy);
-          ctx.lineWidth = r * 1.2;
-          ctx.strokeStyle = this.color;
-          ctx.globalAlpha = alpha;
-          ctx.stroke();
-          ctx.globalAlpha = 1;
-        } else {
-          ctx.beginPath();
-          ctx.arc(sx, sy, r, 0, Math.PI * 2);
-          ctx.fillStyle = this.color;
-          ctx.globalAlpha = alpha;
-          
-          if (this.isGlowing) {
-            ctx.shadowBlur = r * 5;
-            ctx.shadowColor = this.color;
-          } else {
-            ctx.shadowBlur = 0;
-          }
-          ctx.fill();
-          ctx.globalAlpha = 1;
-          ctx.shadowBlur = 0;
-        }
-      }
-    }
-
-    class Comet {
-      constructor() { this.reset(); }
       reset() {
-        this.x = Math.random() * width * 2 - width/2;
-        this.y = -50;
-        this.length = Math.random() * 80 + 40;
-        this.speed = Math.random() * 15 + 10;
-        this.angle = (Math.PI / 4) + (Math.random() * 0.2 - 0.1); 
-        this.opacity = 0;
-        this.active = false;
-        this.delay = Math.random() * 200 + 100; 
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 1.5 + 0.5;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.prevX = this.x;
+        this.prevY = this.y;
       }
+      
       update() {
-        if (!this.active) {
-          this.delay--;
-          if (this.delay <= 0) this.active = true;
-          return;
-        }
+        this.prevX = this.x;
+        this.prevY = this.y;
+        let cx = width / 2;
+        let cy = height / 2;
 
-        this.x += Math.cos(this.angle) * this.speed;
-        this.y += Math.sin(this.angle) * this.speed;
+        if (warpSpeed > 1.5) {
+          // Warp Modu: Merkeze çekilip hızla dışarı fırlama
+          let dx = this.x - cx;
+          let dy = this.y - cy;
+          let angle = Math.atan2(dy, dx);
+          let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          
+          this.x += Math.cos(angle) * (warpSpeed + dist * 0.03);
+          this.y += Math.sin(angle) * (warpSpeed + dist * 0.03);
 
-        if (this.y < height / 2) {
-          this.opacity = Math.min(this.opacity + 0.1, 1);
+          if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+            let resetAngle = Math.random() * Math.PI * 2;
+            let r = Math.random() * (width * 0.1); 
+            this.x = cx + Math.cos(resetAngle) * r;
+            this.y = cy + Math.sin(resetAngle) * r;
+            this.prevX = this.x;
+            this.prevY = this.y;
+          }
         } else {
-          this.opacity = Math.max(this.opacity - 0.05, 0);
-        }
+          // Normal Ağ Modu: Serbest dolaşım ve fareden kaçma
+          this.x += this.vx;
+          this.y += this.vy;
 
-        if (this.y > height + 100 || this.x > width + 100) {
-          this.reset();
+          if (this.x > width || this.x < 0) this.vx = -this.vx;
+          if (this.y > height || this.y < 0) this.vy = -this.vy;
+
+          if (mouse.x != null) {
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < mouse.radius) {
+              let force = (mouse.radius - distance) / mouse.radius;
+              this.x -= (dx / distance) * force * 1.5;
+              this.y -= (dy / distance) * force * 1.5;
+            }
+          }
         }
       }
+      
       draw() {
-        if (!this.active || speed > 10) return; 
-
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x - Math.cos(this.angle) * this.length, this.y - Math.sin(this.angle) * this.length);
-        
-        let gradient = ctx.createLinearGradient(this.x, this.y, this.x - Math.cos(this.angle) * this.length, this.y - Math.sin(this.angle) * this.length);
-        gradient.addColorStop(0, `rgba(255, 255, 255, ${this.opacity})`);
-        gradient.addColorStop(1, `rgba(34, 211, 238, 0)`);
-
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
+        if (warpSpeed > 2.5) {
+          // Warp hızı devredeyken uzun neon lazerler çiz
+          ctx.beginPath();
+          ctx.moveTo(this.prevX, this.prevY);
+          ctx.lineTo(this.x, this.y);
+          ctx.strokeStyle = `rgba(34, 211, 238, ${Math.min(1, warpSpeed/10)})`;
+          ctx.lineWidth = this.size * 1.5;
+          ctx.stroke();
+        } else {
+          // Normal devredeyken sadece noktaları çiz
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(45, 212, 191, 0.4)';
+          ctx.fill();
+        }
       }
     }
 
-    for (let i = 0; i < numStars; i++) stars.push(new Star());
-    for (let i = 0; i < 3; i++) comets.push(new Comet());
+    function init() {
+      particles = [];
+      let numberOfParticles = (width * height) / 10000;
+      for (let i = 0; i < numberOfParticles; i++) {
+        particles.push(new Particle());
+      }
+    }
 
     function animate() {
-      speed += (targetSpeed - speed) * 0.06;
-      targetX += (mouseX - targetX) * 0.08;
-      targetY += (mouseY - targetY) * 0.08;
-      globalAngle += 0.0004;
+      requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, width, height);
 
-      if (speed > 15) {
-        let shakeX = (Math.random() - 0.5) * (speed * 0.15);
-        let shakeY = (Math.random() - 0.5) * (speed * 0.15);
+      // Warp hızını yumuşak bir şekilde artır/azalt
+      if (isWarping) {
+        warpSpeed += (25 - warpSpeed) * 0.08;
+      } else {
+        warpSpeed += (0 - warpSpeed) * 0.1;
+      }
+
+      // Ekran Sarsıntısı (Screen Shake)
+      if (warpSpeed > 10) {
+        let shakeX = (Math.random() - 0.5) * (warpSpeed * 0.15);
+        let shakeY = (Math.random() - 0.5) * (warpSpeed * 0.15);
         shakeWrapper.style.transform = `translate(${shakeX}px, ${shakeY}px)`;
       } else {
         shakeWrapper.style.transform = `translate(0px, 0px)`;
       }
 
-      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
 
-      stars.forEach(star => {
-        star.update();
-        star.draw();
-      });
+        // Noktalar arası Network bağları (Sadece warp hızı düşükken aktif)
+        if (warpSpeed < 5) {
+          for (let j = i; j < particles.length; j++) {
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
 
-      comets.forEach(comet => {
-        comet.update();
-        comet.draw();
-      });
-
-      requestAnimationFrame(animate);
+            if (distance < 110) {
+              ctx.beginPath();
+              // Warp başlarken bağlar yavaşça silinir
+              let alpha = (0.15 - distance / 110) * (1 - warpSpeed/5);
+              ctx.strokeStyle = `rgba(45, 212, 191, ${alpha})`; 
+              ctx.lineWidth = 0.8;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
     }
-    
+
+    resize();
     animate();
   </script>
 
