@@ -1,359 +1,540 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mustafa Durmuş - Unity Developer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #050507;
-    --border: rgba(255,255,255,0.06);
-    --text: #f2f1f6;
-    --text-muted: #8b8994;
-    --teal: #2dd4bf;
-    --cyan: #22d3ee;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mustafa Durmuş - Unity Developer & Game Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050507;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(45, 212, 191, 0.4);
+      --text: #f2f1f6;
+      --text-muted: #8b8994;
+      --teal: #2dd4bf;
+      --cyan: #22d3ee;
+      --card-bg: rgba(15, 17, 26, 0.6);
+    }
 
-  *{ margin:0; padding:0; box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body{
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-    min-height: 100vh;
-    user-select: none; 
-  }
+    html {
+      scroll-behavior: smooth;
+    }
 
-  section{ scroll-margin-top: 5.5rem; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      user-select: none;
+      line-height: 1.6;
+    }
 
-  /* ---------- NAVBAR ---------- */
-  .navbar{
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.05rem 2rem;
-    background: rgba(5, 5, 7, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
+    section {
+      scroll-margin-top: 6rem;
+    }
 
-  .nav-logo{
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--text);
-    text-decoration: none;
-    letter-spacing: 0.02em;
-  }
-  .nav-logo span{ color: var(--teal); }
+    /* ---------- SCROLL REVEAL ANIMASYONU ---------- */
+    .hidden {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-  .nav-links{ display: flex; gap: 2rem; }
-  .nav-links a{
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.88rem;
-    transition: color 0.25s ease;
-  }
-  .nav-links a:hover{ color: var(--text); }
+    .show {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-  /* ---------- DİKEY MARKA İMZASI ---------- */
-  .brand-vertical {
-    position: fixed;
-    left: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%) rotate(180deg);
-    writing-mode: vertical-rl;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.6em;
-    color: rgba(255,255,255,0.08);
-    z-index: 40;
-    transition: color 0.4s ease;
-    cursor: default;
-  }
-  .brand-vertical:hover { color: var(--cyan); }
+    /* ---------- NAVBAR ---------- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: rgba(5, 5, 7, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
 
-  /* ---------- HERO & PREMIUM CANVAS ---------- */
-  .hero{
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    padding: 0 1.5rem;
-    cursor: crosshair;
-  }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+    }
 
-  .space-canvas {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, #0f111a 0%, #050507 100%);
-  }
+    .nav-logo span {
+      color: var(--teal);
+    }
 
-  .warp-hint {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    color: rgba(45, 212, 191, 0.4);
-    z-index: 5;
-    pointer-events: none;
-    animation: pulseHint 2s infinite alternate;
-  }
-  @keyframes pulseHint {
-    from { opacity: 0.2; letter-spacing: 0.2em; }
-    to { opacity: 0.8; letter-spacing: 0.3em; text-shadow: 0 0 8px rgba(34,211,238,0.3); }
-  }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
 
-  .hero-wrapper {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    pointer-events: none;
-  }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
 
-  .intro{
-    text-align: center;
-    opacity: 0;
-    animation: smoothRise 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
+    .nav-links a:hover {
+      color: var(--text);
+    }
 
-  .name{
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: clamp(3rem, 10vw, 5.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    color: #fff;
-    margin-bottom: 2rem;
-  }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: var(--teal);
+      transition: width 0.3s ease;
+    }
 
-  .name span{
-    background: linear-gradient(110deg, #ffffff 10%, var(--teal) 50%, var(--cyan) 90%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
 
-  @keyframes smoothRise {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+    /* ---------- DİKEY MARKA İMZASI ---------- */
+    .brand-vertical {
+      position: fixed;
+      left: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%) rotate(180deg);
+      writing-mode: vertical-rl;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.6em;
+      color: rgba(255, 255, 255, 0.08);
+      z-index: 40;
+      transition: color 0.4s ease;
+      cursor: default;
+    }
 
-  .stats-strip{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.85rem;
-    opacity: 0;
-    animation: smoothRise 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 0.3s;
-    pointer-events: auto;
-  }
+    .brand-vertical:hover {
+      color: var(--cyan);
+      text-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+    }
 
-  .stat-pill{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
-    color: var(--text-muted);
-    padding: 0.6rem 1.2rem;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.02);
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
-  }
-  .stat-pill:hover {
-    background: rgba(255,255,255,0.05);
-    border-color: var(--teal);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(34,211,238,0.2);
-  }
+    /* ---------- HERO & PREMIUM CANVAS ---------- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0 1.5rem;
+      cursor: crosshair;
+    }
 
-  /* ---------- OYUNLAR BÖLÜMÜ ---------- */
-  .games-section{
-    position: relative;
-    z-index: 3;
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 6rem 1.5rem 7rem;
-  }
+    .space-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #0f111a 0%, #050507 100%);
+    }
 
-  .section-eyebrow{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    text-align: center;
-    margin-bottom: 0.8rem;
-  }
+    .warp-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: rgba(45, 212, 191, 0.5);
+      z-index: 5;
+      pointer-events: none;
+      animation: pulseHint 2.5s infinite alternate;
+    }
 
-  .section-title{
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: clamp(1.6rem, 4vw, 2.35rem);
-    text-align: center;
-    margin-bottom: 3.25rem;
-  }
+    @keyframes pulseHint {
+      from {
+        opacity: 0.3;
+        letter-spacing: 0.2em;
+      }
 
-  .cards-grid{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-  @media (max-width: 720px){ .cards-grid{ grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 480px){ .cards-grid{ grid-template-columns: 1fr; } }
+      to {
+        opacity: 1;
+        letter-spacing: 0.35em;
+        text-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
+      }
+    }
 
-  .game-card{
-    position: relative;
-    display: block;
-    text-decoration: none;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    aspect-ratio: 3 / 4;
-    background: #0f111a;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    cursor: pointer;
-  }
-  
-  .game-card:hover{
-    transform: translateY(-6px);
-    border-color: rgba(45, 212, 191, 0.3);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-  }
+    .hero-wrapper {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
 
-  .game-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  .game-card:hover .game-image {
-    transform: scale(1.08);
-  }
+    .intro {
+      text-align: center;
+      opacity: 0;
+      animation: smoothRise 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
 
-  .game-overlay{
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    display: flex;
-    align-items: flex-end;
-    padding: 1.5rem;
-    background: linear-gradient(180deg, transparent 10%, rgba(5,5,7,0.7) 50%, rgba(5,5,7,0.98) 100%);
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
-  
-  .game-card:hover .game-overlay{ 
-    opacity: 1; 
-    transform: translateY(0);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
+    .intro p {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--teal);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
 
-  .game-info h3{
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
-    color: #fff;
-  }
-  
-  .game-info p{
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
+    .name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3.5rem, 10vw, 6.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 2rem;
+    }
 
-  .play-circle{
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -30%) scale(0.85);
-    z-index: 2;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(5,5,7,0.6);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: #fff;
-    font-size: 1.2rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-  
-  .game-card:hover .play-circle{
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-    pointer-events: auto;
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, 
-                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
-  }
-  
-  .play-circle:hover{ 
-    background: rgba(255,255,255,0.1); 
-    border-color: var(--teal);
-  }
+    .name span {
+      background: linear-gradient(110deg, #ffffff 10%, var(--teal) 50%, var(--cyan) 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-  /* ---------- FOOTER ---------- */
-  footer{
-    position: relative;
-    z-index: 3;
-    text-align: center;
-    padding: 2.5rem 1.5rem 3rem;
-    color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.05em;
-    border-top: 1px solid var(--border);
-  }
-  footer a{
-    color: var(--text-muted);
-    text-decoration: none;
-    margin: 0 0.6rem;
-    transition: color 0.25s ease;
-  }
-  footer a:hover{ color: var(--cyan); }
-</style>
+    @keyframes smoothRise {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .stats-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      opacity: 0;
+      animation: smoothRise 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: 0.4s;
+      pointer-events: auto;
+    }
+
+    .stat-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(12px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .stat-pill:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--teal);
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(34, 211, 238, 0.15);
+    }
+
+    /* ---------- VİZYON / HAKKIMDA BÖLÜMÜ ---------- */
+    .about-section {
+      position: relative;
+      z-index: 3;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 8rem 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .about-text {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--text-muted);
+      line-height: 1.8;
+      font-weight: 400;
+    }
+
+    .about-text strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* ---------- YETENEKLER BÖLÜMÜ ---------- */
+    .skills-section {
+      position: relative;
+      z-index: 3;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 2rem;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .skill-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    .skill-card:hover {
+      border-color: var(--cyan);
+      background: rgba(34, 211, 238, 0.05);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ---------- OYUNLAR BÖLÜMÜ ---------- */
+    .games-section {
+      position: relative;
+      z-index: 3;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 7rem;
+    }
+
+    .section-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--teal);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      text-align: center;
+      margin-bottom: 4rem;
+      color: #fff;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 850px) {
+      .cards-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .game-card {
+      position: relative;
+      display: block;
+      text-decoration: none;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 3 / 4;
+      background: var(--card-bg);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .game-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--border-hover);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .game-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .game-card:hover .game-image {
+      transform: scale(1.1);
+    }
+
+    .game-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      background: linear-gradient(180deg, transparent 0%, rgba(5, 5, 7, 0.4) 40%, #050507 100%);
+      opacity: 0.85;
+      transition: all 0.4s ease;
+    }
+
+    .game-card:hover .game-overlay {
+      opacity: 1;
+      background: linear-gradient(180deg, transparent 0%, rgba(5, 5, 7, 0.2) 30%, #050507 100%);
+    }
+
+    .game-info {
+      transform: translateY(10px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .game-card:hover .game-info {
+      transform: translateY(0);
+    }
+
+    .game-info h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .game-info p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .play-circle {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -30%) scale(0.85);
+      z-index: 2;
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5, 5, 7, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 1.4rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s ease;
+    }
+
+    .game-card:hover .play-circle {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: auto;
+      background: rgba(45, 212, 191, 0.2);
+      border-color: var(--teal);
+      box-shadow: 0 0 30px rgba(45, 212, 191, 0.3);
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      padding: 3rem 1.5rem 4rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      border-top: 1px solid var(--border);
+      background: #030305;
+    }
+
+    .footer-links {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      background: var(--card-bg);
+    }
+
+    footer a:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      background: rgba(34, 211, 238, 0.05);
+    }
+  </style>
 </head>
+
 <body>
 
   <nav class="navbar">
     <a class="nav-logo" href="#hero">Mustafa<span>.</span></a>
     <div class="nav-links">
-      <a href="#hero">Anasayfa</a>
+      <a href="#hero">Evren</a>
+      <a href="#hakkimda">Vizyon</a>
       <a href="#oyunlar">Projeler</a>
-      <a href="#iletisim">İletişim</a>
+      <a href="#iletisim">Bağlantı</a>
     </div>
   </nav>
 
@@ -361,39 +542,67 @@
 
   <section class="hero" id="hero">
     <canvas id="spaceCanvas" class="space-canvas"></canvas>
-    <div class="warp-hint">[ BASILI TUT: SİBER-WARP AKTİF ]</div>
-    
+    <div class="warp-hint">[ SİBER-WARP İÇİN BASILI TUT ]</div>
+
     <div class="hero-wrapper" id="shakeWrapper">
       <div class="intro">
+        <p>SİSTEM AKTİF // Geliştirici Ağına Bağlanıldı</p>
         <h1 class="name">Mustafa <span>Durmuş</span></h1>
       </div>
 
       <div class="stats-strip">
         <span class="stat-pill">🎮 Unity Developer</span>
         <span class="stat-pill">⚙️ C# / .NET</span>
+        <span class="stat-pill">🕹️ Game Design</span>
       </div>
     </div>
   </section>
 
-  <section class="games-section" id="oyunlar">
+  <!-- HAKKIMDA BÖLÜMÜ -->
+  <section class="about-section hidden" id="hakkimda">
+    <p class="section-eyebrow">Kreatif Vizyon</p>
+    <h2 class="section-title">Kodların Ötesinde</h2>
+    <p class="about-text">
+      Sadece kod yazmakla kalmıyor, oyuncuları içine çeken <strong>dünyalar, mekanikler ve hikayeler</strong>
+      tasarlıyorum. Performans optimizasyonundan detaylı bölüm tasarımlarına kadar, oyun geliştirmenin her aşamasında
+      sanatı ve teknik altyapıyı ustalıkla harmanlıyorum.
+    </p>
+  </section>
+
+  <!-- YETENEKLER BÖLÜMÜ -->
+  <section class="skills-section hidden" id="yetenekler">
+    <p class="section-eyebrow">Cephanelik</p>
+    <h2 class="section-title">Teknoloji & Araçlar</h2>
+    <div class="skills-grid">
+      <div class="skill-card"><span>⚙️</span> Unity Engine</div>
+      <div class="skill-card"><span>💻</span> C# & .NET</div>
+      <div class="skill-card"><span>🧠</span> Leonardo AI</div>
+      <div class="skill-card"><span>🤖</span> Claude (AI-Driven Dev)</div>
+      <div class="skill-card"><span>🗃️</span> Git</div>
+    </div>
+  </section>
+
+  <section class="games-section hidden" id="oyunlar">
     <p class="section-eyebrow">Projeler</p>
     <h2 class="section-title">Play Store'da Keşfet</h2>
 
     <div class="cards-grid">
       <!-- ROADBOUND ALIEN -->
-      <a href="https://play.google.com/store/apps/details?id=com.darizx.gamealien&hl=tr" target="_blank" class="game-card">
+      <a href="https://play.google.com/store/apps/details?id=com.darizx.gamealien&hl=tr" target="_blank"
+        class="game-card">
         <img src="alien.jpg" alt="Roadbound Alien" class="game-image">
         <div class="game-overlay">
           <div class="game-info">
             <h3>Roadbound Alien</h3>
-            <p>Galaksiler arası maceraya atıl.</p>
+            <p>Galaksiler arası maceraya atıl ve sınırları zorla.</p>
           </div>
         </div>
         <div class="play-circle">🎮</div>
       </a>
 
       <!-- LEXY LETTER -->
-      <a href="https://play.google.com/store/apps/details?id=com.DariZxStudio.LexyLetter" target="_blank" class="game-card">
+      <a href="https://play.google.com/store/apps/details?id=com.DariZxStudio.LexyLetter" target="_blank"
+        class="game-card">
         <img src="lexy.jpg" alt="Lexy Letter" class="game-image">
         <div class="game-overlay">
           <div class="game-info">
@@ -419,21 +628,22 @@
   </section>
 
   <footer id="iletisim">
-    <span>© 2026 Mustafa Durmuş</span>
-    <a href="mailto:ornek@gmail.com">Mail</a>
-    <a href="https://github.com/DariZx" target="_blank">GitHub</a>
+    <span>© 2026 Mustafa Durmuş. Tüm Hakları Saklıdır.</span>
+    <div class="footer-links">
+      <a href="mailto:darizxstudio@gmail.com">📩 İletişime Geç</a>
+      <a href="https://github.com/DariZx" target="_blank">🐙 GitHub</a>
+      <a href="https://www.linkedin.com/in/mustafa-durmuş-818921320" target="_blank">💼 LinkedIn</a>
+    </div>
   </footer>
 
   <script>
+    // --- CANVAS SİBER-WARP (OPTİMİZE EDİLMİŞ VERSİYON) ---
     const canvas = document.getElementById('spaceCanvas');
     const ctx = canvas.getContext('2d');
     const shakeWrapper = document.getElementById('shakeWrapper');
     let width, height;
     let particles = [];
-    
     let mouse = { x: null, y: null, radius: 120 };
-    
-    // Siber-Warp değişkenleri
     let isWarping = false;
     let warpSpeed = 0;
 
@@ -446,7 +656,6 @@
     }
     window.addEventListener('resize', resize);
 
-    // Etkileşimler
     document.addEventListener('mousemove', (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
@@ -457,13 +666,11 @@
     heroSection.addEventListener('mousedown', () => isWarping = true);
     heroSection.addEventListener('mouseup', () => isWarping = false);
     heroSection.addEventListener('mouseleave', () => isWarping = false);
-    heroSection.addEventListener('touchstart', () => isWarping = true, {passive: true});
-    heroSection.addEventListener('touchend', () => isWarping = false, {passive: true});
+    heroSection.addEventListener('touchstart', () => isWarping = true, { passive: true });
+    heroSection.addEventListener('touchend', () => isWarping = false, { passive: true });
 
     class Particle {
-      constructor() {
-        this.reset();
-      }
+      constructor() { this.reset(); }
       reset() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
@@ -473,7 +680,6 @@
         this.prevX = this.x;
         this.prevY = this.y;
       }
-      
       update() {
         this.prevX = this.x;
         this.prevY = this.y;
@@ -481,37 +687,36 @@
         let cy = height / 2;
 
         if (warpSpeed > 1.5) {
-          // Warp Modu: Merkeze çekilip hızla dışarı fırlama
           let dx = this.x - cx;
           let dy = this.y - cy;
           let angle = Math.atan2(dy, dx);
           let dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          
-          this.x += Math.cos(angle) * (warpSpeed + dist * 0.03);
-          this.y += Math.sin(angle) * (warpSpeed + dist * 0.03);
+
+          this.x += Math.cos(angle) * (warpSpeed + dist * 0.035);
+          this.y += Math.sin(angle) * (warpSpeed + dist * 0.035);
 
           if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
             let resetAngle = Math.random() * Math.PI * 2;
-            let r = Math.random() * (width * 0.1); 
+            let r = Math.random() * (width * 0.1);
             this.x = cx + Math.cos(resetAngle) * r;
             this.y = cy + Math.sin(resetAngle) * r;
             this.prevX = this.x;
             this.prevY = this.y;
           }
         } else {
-          // Normal Ağ Modu: Serbest dolaşım ve fareden kaçma
           this.x += this.vx;
           this.y += this.vy;
-
           if (this.x > width || this.x < 0) this.vx = -this.vx;
           if (this.y > height || this.y < 0) this.vy = -this.vy;
 
           if (mouse.x != null) {
             let dx = mouse.x - this.x;
             let dy = mouse.y - this.y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < mouse.radius) {
+            let distSq = dx * dx + dy * dy;
+            let radiusSq = mouse.radius * mouse.radius;
+
+            if (distSq < radiusSq) {
+              let distance = Math.sqrt(distSq);
               let force = (mouse.radius - distance) / mouse.radius;
               this.x -= (dx / distance) * force * 1.5;
               this.y -= (dy / distance) * force * 1.5;
@@ -519,18 +724,15 @@
           }
         }
       }
-      
       draw() {
         if (warpSpeed > 2.5) {
-          // Warp hızı devredeyken uzun neon lazerler çiz
           ctx.beginPath();
           ctx.moveTo(this.prevX, this.prevY);
           ctx.lineTo(this.x, this.y);
-          ctx.strokeStyle = `rgba(34, 211, 238, ${Math.min(1, warpSpeed/10)})`;
+          ctx.strokeStyle = `rgba(34, 211, 238, ${Math.min(1, warpSpeed / 10)})`;
           ctx.lineWidth = this.size * 1.5;
           ctx.stroke();
         } else {
-          // Normal devredeyken sadece noktaları çiz
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
           ctx.fillStyle = 'rgba(45, 212, 191, 0.4)';
@@ -541,7 +743,12 @@
 
     function init() {
       particles = [];
-      let numberOfParticles = (width * height) / 10000;
+      let isMobile = width < 768;
+      let density = isMobile ? 18000 : 10000;
+      let maxParticles = isMobile ? 35 : 110;
+
+      let numberOfParticles = Math.min(Math.floor((width * height) / density), maxParticles);
+
       for (let i = 0; i < numberOfParticles; i++) {
         particles.push(new Particle());
       }
@@ -551,17 +758,12 @@
       requestAnimationFrame(animate);
       ctx.clearRect(0, 0, width, height);
 
-      // Warp hızını yumuşak bir şekilde artır/azalt
-      if (isWarping) {
-        warpSpeed += (25 - warpSpeed) * 0.08;
-      } else {
-        warpSpeed += (0 - warpSpeed) * 0.1;
-      }
+      if (isWarping) warpSpeed += (28 - warpSpeed) * 0.08;
+      else warpSpeed += (0 - warpSpeed) * 0.1;
 
-      // Ekran Sarsıntısı (Screen Shake)
       if (warpSpeed > 10) {
-        let shakeX = (Math.random() - 0.5) * (warpSpeed * 0.15);
-        let shakeY = (Math.random() - 0.5) * (warpSpeed * 0.15);
+        let shakeX = (Math.random() - 0.5) * (warpSpeed * 0.12);
+        let shakeY = (Math.random() - 0.5) * (warpSpeed * 0.12);
         shakeWrapper.style.transform = `translate(${shakeX}px, ${shakeY}px)`;
       } else {
         shakeWrapper.style.transform = `translate(0px, 0px)`;
@@ -570,20 +772,21 @@
       for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();
+      }
 
-        // Noktalar arası Network bağları (Sadece warp hızı düşükken aktif)
-        if (warpSpeed < 5) {
-          for (let j = i; j < particles.length; j++) {
+      if (warpSpeed < 2) {
+        ctx.lineWidth = 0.8;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
             let dx = particles[i].x - particles[j].x;
             let dy = particles[i].y - particles[j].y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
+            let distSq = dx * dx + dy * dy;
 
-            if (distance < 110) {
+            if (distSq < 12100) {
+              let distance = Math.sqrt(distSq);
               ctx.beginPath();
-              // Warp başlarken bağlar yavaşça silinir
-              let alpha = (0.15 - distance / 110) * (1 - warpSpeed/5);
-              ctx.strokeStyle = `rgba(45, 212, 191, ${alpha})`; 
-              ctx.lineWidth = 0.8;
+              let alpha = (0.15 - distance / 110) * (1 - Math.max(0, warpSpeed / 2));
+              ctx.strokeStyle = `rgba(45, 212, 191, ${alpha})`;
               ctx.moveTo(particles[i].x, particles[i].y);
               ctx.lineTo(particles[j].x, particles[j].y);
               ctx.stroke();
@@ -595,7 +798,27 @@
 
     resize();
     animate();
+
+    // --- SCROLL REVEAL ANIMASYONU ---
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const hiddenElements = document.querySelectorAll('.hidden');
+    hiddenElements.forEach((el) => observer.observe(el));
   </script>
 
 </body>
+
 </html>
