@@ -637,7 +637,7 @@
   </footer>
 
   <script>
-    // --- CANVAS SİBER-WARP (OPTİMİZE EDİLMİŞ VERSİYON) ---
+    // --- CANVAS SİBER-WARP (GERÇEKÇİ YILDIZLAR & FADE-IN) ---
     const canvas = document.getElementById('spaceCanvas');
     const ctx = canvas.getContext('2d');
     const shakeWrapper = document.getElementById('shakeWrapper');
@@ -670,21 +670,34 @@
     heroSection.addEventListener('touchend', () => isWarping = false, { passive: true });
 
     class Particle {
-      constructor() { this.reset(); }
-      reset() {
+      constructor() { 
+        this.reset(true); 
+      }
+      
+      reset(initial = false) {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.size = Math.random() * 1.5 + 0.5;
-        this.vx = (Math.random() - 0.5) * 0.4;
-        this.vy = (Math.random() - 0.5) * 0.4;
+        this.size = Math.random() * 1.2 + 0.3; // Yıldızlar biraz daha gerçekçi ve minik
+        this.vx = (Math.random() - 0.5) * 0.3; // Hareket hızı biraz dengelendi
+        this.vy = (Math.random() - 0.5) * 0.3;
         this.prevX = this.x;
         this.prevY = this.y;
+        
+        // FADE-IN MANTIĞI: İlk açılışta rastgele parlaklık, sonradan doğanlarda 0 (Görünmez)
+        this.alpha = initial ? (Math.random() * 0.6 + 0.1) : 0;
+        this.targetAlpha = Math.random() * 0.6 + 0.2; // Ulaşacağı maksimum parlaklık
       }
+      
       update() {
         this.prevX = this.x;
         this.prevY = this.y;
         let cx = width / 2;
         let cy = height / 2;
+
+        // Saydamlığı yavaşça artır (Ekrana şak diye gelmeyi önler)
+        if (this.alpha < this.targetAlpha) {
+          this.alpha += 0.015; 
+        }
 
         if (warpSpeed > 1.5) {
           let dx = this.x - cx;
@@ -697,11 +710,15 @@
 
           if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
             let resetAngle = Math.random() * Math.PI * 2;
-            let r = Math.random() * (width * 0.1);
+            let r = Math.random() * (width * 0.08);
             this.x = cx + Math.cos(resetAngle) * r;
             this.y = cy + Math.sin(resetAngle) * r;
             this.prevX = this.x;
             this.prevY = this.y;
+            
+            // Ekrandan çıkıp geri döndüğünde GÖRÜNMEZ başlatıyoruz
+            this.alpha = 0; 
+            this.targetAlpha = Math.random() * 0.7 + 0.3;
           }
         } else {
           this.x += this.vx;
@@ -724,18 +741,22 @@
           }
         }
       }
+      
       draw() {
         if (warpSpeed > 2.5) {
           ctx.beginPath();
           ctx.moveTo(this.prevX, this.prevY);
           ctx.lineTo(this.x, this.y);
-          ctx.strokeStyle = `rgba(34, 211, 238, ${Math.min(1, warpSpeed / 10)})`;
+          // Warp sırasında çizginin saydamlığını yıldızın kendi saydamlığına bağladık
+          let warpAlpha = Math.min(1, warpSpeed / 10);
+          ctx.strokeStyle = `rgba(34, 211, 238, ${this.alpha * warpAlpha})`;
           ctx.lineWidth = this.size * 1.5;
           ctx.stroke();
         } else {
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(45, 212, 191, 0.4)';
+          // Normal bekleme modunda her yıldız kendi parlaklığında yanar
+          ctx.fillStyle = `rgba(45, 212, 191, ${this.alpha})`;
           ctx.fill();
         }
       }
@@ -774,6 +795,7 @@
         particles[i].draw();
       }
 
+      // AĞ BAĞLANTILARI (ÇİZGİLER)
       if (warpSpeed < 2) {
         ctx.lineWidth = 0.8;
         for (let i = 0; i < particles.length; i++) {
@@ -785,8 +807,10 @@
             if (distSq < 12100) {
               let distance = Math.sqrt(distSq);
               ctx.beginPath();
-              let alpha = (0.15 - distance / 110) * (1 - Math.max(0, warpSpeed / 2));
-              ctx.strokeStyle = `rgba(45, 212, 191, ${alpha})`;
+              // Çizgilerin saydamlığını da yıldızların kendi alpha değerleriyle orantılı kıldık
+              let baseAlpha = (0.15 - distance / 110) * (1 - Math.max(0, warpSpeed / 2));
+              let minAlpha = Math.min(particles[i].alpha, particles[j].alpha);
+              ctx.strokeStyle = `rgba(45, 212, 191, ${baseAlpha * (minAlpha * 2)})`;
               ctx.moveTo(particles[i].x, particles[i].y);
               ctx.lineTo(particles[j].x, particles[j].y);
               ctx.stroke();
