@@ -19,6 +19,7 @@
       --text-muted: #8b8994;
       --teal: #2dd4bf;
       --cyan: #22d3ee;
+      --neon-green: #34d399; /* Yeni Neon Yeşil Rengimiz */
       --card-bg: rgba(15, 17, 26, 0.6);
     }
 
@@ -26,7 +27,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      cursor: crosshair !important; /* TÜM SİTEDE CROSSHAIR İMLEÇ */
+      cursor: crosshair !important;
     }
 
     html {
@@ -130,7 +131,7 @@
       width: 100%;
     }
 
-    /* YENİ ŞIK DİL DEĞİŞTİRME KAPSÜLÜ (TR | EN | ES) */
+    /* DİL SEÇİCİ */
     .lang-selector {
       display: flex;
       align-items: center;
@@ -165,7 +166,7 @@
       box-shadow: 0 0 12px rgba(34, 211, 238, 0.25);
     }
 
-    /* ---------- DİKEY MARKA İMZASI ---------- */
+    /* DİKEY MARKA İMZASI */
     .brand-vertical {
       position: fixed;
       left: 1.5rem;
@@ -185,7 +186,7 @@
       text-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
     }
 
-    /* ---------- HERO & PREMIUM CANVAS ---------- */
+    /* HERO & PREMIUM CANVAS */
     .hero {
       position: relative;
       min-height: 100vh;
@@ -221,16 +222,8 @@
     }
 
     @keyframes pulseHint {
-      from {
-        opacity: 0.3;
-        letter-spacing: 0.2em;
-      }
-
-      to {
-        opacity: 1;
-        letter-spacing: 0.35em;
-        text-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
-      }
+      from { opacity: 0.3; letter-spacing: 0.2em; }
+      to { opacity: 1; letter-spacing: 0.35em; text-shadow: 0 0 12px rgba(34, 211, 238, 0.5); }
     }
 
     .hero-wrapper {
@@ -274,15 +267,8 @@
     }
 
     @keyframes smoothRise {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .stats-strip {
@@ -317,7 +303,7 @@
       box-shadow: 0 10px 20px rgba(34, 211, 238, 0.15);
     }
 
-    /* ---------- VİZYON / HAKKIMDA BÖLÜMÜ ---------- */
+    /* VİZYON / HAKKIMDA BÖLÜMÜ */
     .about-section {
       position: relative;
       z-index: 3;
@@ -339,7 +325,7 @@
       font-weight: 600;
     }
 
-    /* ---------- YETENEKLER BÖLÜMÜ ---------- */
+    /* YETENEKLER BÖLÜMÜ */
     .skills-section {
       position: relative;
       z-index: 3;
@@ -370,7 +356,6 @@
       transition: all 0.3s ease;
     }
 
-    /* Mavi Vektör İkonlar için stil */
     .blue-icon {
       width: 20px;
       height: 20px;
@@ -389,7 +374,7 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
 
-    /* ---------- OYUNLAR BÖLÜMÜ ---------- */
+    /* OYUNLAR BÖLÜMÜ */
     .games-section {
       position: relative;
       z-index: 3;
@@ -424,24 +409,14 @@
     }
 
     @media (max-width: 850px) {
-      .cards-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-      .nav-links {
-        display: none;
-      }
+      .cards-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
     }
 
     @media (max-width: 550px) {
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
-      .navbar {
-        padding: 1rem 1.2rem;
-      }
-      .brand-vertical {
-        display: none;
-      }
+      .cards-grid { grid-template-columns: 1fr; }
+      .navbar { padding: 1rem 1.2rem; }
+      .brand-vertical { display: none; }
     }
 
     .game-card {
@@ -502,6 +477,31 @@
       transform: translateY(0);
     }
 
+    /* YENİ NEON YEŞİL TÜR ETİKETİ */
+    .game-genre {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--neon-green);
+      background: rgba(52, 211, 153, 0.08);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 0.7rem;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(52, 211, 153, 0.15);
+      backdrop-filter: blur(4px);
+      transition: all 0.3s ease;
+    }
+
+    .game-card:hover .game-genre {
+      background: rgba(52, 211, 153, 0.15);
+      border-color: rgba(52, 211, 153, 0.6);
+      box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
+    }
+
     .game-info h3 {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
@@ -547,7 +547,7 @@
       box-shadow: 0 0 30px rgba(45, 212, 191, 0.3);
     }
 
-    /* ---------- FOOTER ---------- */
+    /* FOOTER */
     footer {
       position: relative;
       z-index: 3;
@@ -582,7 +582,6 @@
       gap: 0.6rem;
     }
 
-    /* Gri Vektör İkonlar (Footer) */
     .gray-icon {
       width: 16px;
       height: 16px;
@@ -658,37 +657,32 @@
     </p>
   </section>
 
-  <!-- YETENEKLER BÖLÜMÜ (TEÇHİZAT DEPOSU) -->
+  <!-- YETENEKLER BÖLÜMÜ -->
   <section class="skills-section hidden" id="yetenekler">
     <p class="section-eyebrow" data-i18n="skillsEyebrow">TEÇHİZAT DEPOSU</p>
     <h2 class="section-title" data-i18n="skillsTitle">Teknoloji & Araçlar</h2>
     <div class="skills-grid">
       
-      <!-- Unity Engine -->
       <div class="skill-card">
         <svg class="blue-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         Unity Engine
       </div>
       
-      <!-- C# & .NET -->
       <div class="skill-card">
         <svg class="blue-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         C# & .NET
       </div>
 
-      <!-- Leonardo AI -->
       <div class="skill-card">
         <svg class="blue-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><circle cx="12" cy="12" r="3"/></svg>
         Leonardo AI
       </div>
 
-      <!-- Claude (AI-Driven Dev) -->
       <div class="skill-card">
         <svg class="blue-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
         Claude (AI-Driven Dev)
       </div>
 
-      <!-- Git -->
       <div class="skill-card">
         <svg class="blue-icon" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 9v12"/><path d="M18 15a9 9 0 0 0-9-9H6"/></svg>
         Git
@@ -709,6 +703,8 @@
         <img src="alien.jpg" alt="Roadbound Alien" class="game-image">
         <div class="game-overlay">
           <div class="game-info">
+            <!-- Neon Etiket Burada! -->
+            <span class="game-genre">CASUAL / ARCADE</span>
             <h3>Roadbound Alien</h3>
             <p data-i18n="alienDesc">Galaksiler arası maceraya atıl ve sınırları zorla.</p>
           </div>
@@ -722,6 +718,8 @@
         <img src="lexy.jpg" alt="Lexy Letter" class="game-image">
         <div class="game-overlay">
           <div class="game-info">
+            <!-- Neon Etiket Burada! -->
+            <span class="game-genre">WORD / PUZZLE</span>
             <h3>Lexy Letter</h3>
             <p data-i18n="lexyDesc">15 farklı dil desteğiyle zamana karşı yarışarak kelimeleri patlat!</p>
           </div>
@@ -734,6 +732,8 @@
         <img src="chain.jpg" alt="Chain Fever" class="game-image">
         <div class="game-overlay">
           <div class="game-info">
+            <!-- Neon Etiket Burada! -->
+            <span class="game-genre">PUZZLE / CASUAL</span>
             <h3>Chain Fever</h3>
             <p data-i18n="chainDesc">Aynı renkteki blokları patlatarak ilerlediğin sürükleyici bir bulmaca.</p>
           </div>
@@ -746,19 +746,14 @@
   <footer id="iletisim">
     <span id="footerRights" data-i18n="footerRights">© 2026 Mustafa Durmuş. Tüm Hakları Saklıdır.</span>
     <div class="footer-links">
-      <!-- Mail İkonu (Gri) -->
       <a href="mailto:darizxstudio@gmail.com">
         <svg class="gray-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <span data-i18n="contactText">İletişime Geç</span>
       </a>
-
-      <!-- GitHub İkonu (Gri) -->
       <a href="https://github.com/DariZx" target="_blank">
         <svg class="gray-icon" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
         GitHub
       </a>
-
-      <!-- LinkedIn İkonu (Gri) -->
       <a href="https://www.linkedin.com/in/mustafa-durmu%C5%9F-818921320" target="_blank">
         <svg class="gray-icon" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         LinkedIn
@@ -767,7 +762,6 @@
   </footer>
 
   <script>
-    // --- TR / EN / ES ÇOK DİLLİ SİSTEM ---
     const i18nData = {
       tr: {
         navUniverse: "Evren",
@@ -832,12 +826,10 @@
     };
 
     function setLanguage(lang) {
-      // Active buton stilini güncelle
       document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
       const activeBtn = document.getElementById(`btn-${lang}`);
       if (activeBtn) activeBtn.classList.add('active');
 
-      // Metinleri değiştir
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (i18nData[lang] && i18nData[lang][key]) {
@@ -846,10 +838,8 @@
       });
     }
 
-    // --- MOBİL CİHAZ OPTİMİZASYON TESPİTİ ---
     const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
 
-    // --- CANVAS SİBER-WARP ---
     const canvas = document.getElementById('spaceCanvas');
     const ctx = canvas.getContext('2d');
     const shakeWrapper = document.getElementById('shakeWrapper');
@@ -884,10 +874,7 @@
     heroSection.addEventListener('touchend', () => isWarping = false, { passive: true });
 
     class Particle {
-      constructor() { 
-        this.reset(true); 
-      }
-      
+      constructor() { this.reset(true); }
       reset(initial = false) {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
@@ -899,16 +886,13 @@
         this.alpha = initial ? (Math.random() * 0.6 + 0.1) : 0;
         this.targetAlpha = Math.random() * 0.6 + 0.2;
       }
-      
       update() {
         this.prevX = this.x;
         this.prevY = this.y;
         let cx = width / 2;
         let cy = height / 2;
 
-        if (this.alpha < this.targetAlpha) {
-          this.alpha += 0.015; 
-        }
+        if (this.alpha < this.targetAlpha) this.alpha += 0.015;
 
         if (warpSpeed > 1.5) {
           let dx = this.x - cx;
@@ -950,7 +934,6 @@
           }
         }
       }
-      
       draw() {
         if (warpSpeed > 2.5) {
           ctx.beginPath();
@@ -973,12 +956,8 @@
       particles = [];
       let maxParticles = isMobileDevice ? 30 : 110;
       let density = isMobileDevice ? 22000 : 10000;
-
       let numberOfParticles = Math.min(Math.floor((width * height) / density), maxParticles);
-
-      for (let i = 0; i < numberOfParticles; i++) {
-        particles.push(new Particle());
-      }
+      for (let i = 0; i < numberOfParticles; i++) particles.push(new Particle());
     }
 
     function animate() {
@@ -1001,7 +980,6 @@
         particles[i].draw();
       }
 
-      // Ağ Çizgileri Bağlantısı
       if (warpSpeed < 2) {
         ctx.lineWidth = 0.8;
         let connectDistSq = isMobileDevice ? 6400 : 12100;
@@ -1029,13 +1007,7 @@
     resize();
     animate();
 
-    // --- SCROLL REVEAL ANIMASYONU ---
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.15
-    };
-
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1044,7 +1016,6 @@
         }
       });
     }, observerOptions);
-
     const hiddenElements = document.querySelectorAll('.hidden');
     hiddenElements.forEach((el) => observer.observe(el));
   </script>
