@@ -26,6 +26,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      cursor: crosshair !important; /* TÜM SİTEDE CROSSHAIR İMLEÇ */
     }
 
     html {
@@ -90,6 +91,12 @@
       color: var(--teal);
     }
 
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
     .nav-links {
       display: flex;
       gap: 2.5rem;
@@ -123,6 +130,41 @@
       width: 100%;
     }
 
+    /* YENİ ŞIK DİL DEĞİŞTİRME KAPSÜLÜ (TR | EN | ES) */
+    .lang-selector {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px;
+      gap: 3px;
+      backdrop-filter: blur(8px);
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.65rem;
+      border-radius: 14px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .lang-btn:hover {
+      color: var(--text);
+    }
+
+    .lang-btn.active {
+      background: rgba(34, 211, 238, 0.12);
+      color: var(--cyan);
+      border-color: rgba(34, 211, 238, 0.4);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.25);
+    }
+
     /* ---------- DİKEY MARKA İMZASI ---------- */
     .brand-vertical {
       position: fixed;
@@ -136,7 +178,6 @@
       color: rgba(255, 255, 255, 0.08);
       z-index: 40;
       transition: color 0.4s ease;
-      cursor: default;
     }
 
     .brand-vertical:hover {
@@ -154,7 +195,6 @@
       justify-content: center;
       overflow: hidden;
       padding: 0 1.5rem;
-      cursor: crosshair;
     }
 
     .space-canvas {
@@ -330,6 +370,18 @@
       transition: all 0.3s ease;
     }
 
+    /* Mavi Vektör İkonlar için stil */
+    .blue-icon {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: var(--cyan);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.4));
+    }
+
     .skill-card:hover {
       border-color: var(--cyan);
       background: rgba(34, 211, 238, 0.05);
@@ -375,11 +427,20 @@
       .cards-grid {
         grid-template-columns: 1fr 1fr;
       }
+      .nav-links {
+        display: none;
+      }
     }
 
     @media (max-width: 550px) {
       .cards-grid {
         grid-template-columns: 1fr;
+      }
+      .navbar {
+        padding: 1rem 1.2rem;
+      }
+      .brand-vertical {
+        display: none;
       }
     }
 
@@ -393,7 +454,6 @@
       aspect-ratio: 3 / 4;
       background: var(--card-bg);
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      cursor: pointer;
     }
 
     .game-card:hover {
@@ -506,22 +566,42 @@
       display: flex;
       justify-content: center;
       gap: 1.5rem;
+      flex-wrap: wrap;
     }
 
     footer a {
       color: var(--text-muted);
       text-decoration: none;
-      transition: color 0.3s ease;
+      transition: all 0.3s ease;
       border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.2rem;
       border-radius: 8px;
       background: var(--card-bg);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Gri Vektör İkonlar (Footer) */
+    .gray-icon {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: var(--text-muted);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.3s ease;
     }
 
     footer a:hover {
       color: var(--cyan);
       border-color: var(--cyan);
       background: rgba(34, 211, 238, 0.05);
+    }
+
+    footer a:hover .gray-icon {
+      stroke: var(--cyan);
     }
   </style>
 </head>
@@ -530,11 +610,20 @@
 
   <nav class="navbar">
     <a class="nav-logo" href="#hero">Mustafa<span>.</span></a>
-    <div class="nav-links">
-      <a href="#hero">Evren</a>
-      <a href="#hakkimda">Vizyon</a>
-      <a href="#oyunlar">Projeler</a>
-      <a href="#iletisim">Bağlantı</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#hero" data-i18n="navUniverse">Evren</a>
+        <a href="#hakkimda" data-i18n="navVision">Vizyon</a>
+        <a href="#oyunlar" data-i18n="navProjects">Projeler</a>
+        <a href="#iletisim" data-i18n="navContact">Bağlantı</a>
+      </div>
+      
+      <!-- SEGMENTED TR | EN | ES DİL SEÇİCİ -->
+      <div class="lang-selector">
+        <button class="lang-btn active" id="btn-tr" onclick="setLanguage('tr')">TR</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" id="btn-es" onclick="setLanguage('es')">ES</button>
+      </div>
     </div>
   </nav>
 
@@ -542,11 +631,11 @@
 
   <section class="hero" id="hero">
     <canvas id="spaceCanvas" class="space-canvas"></canvas>
-    <div class="warp-hint">[ SİBER-WARP İÇİN BASILI TUT ]</div>
+    <div class="warp-hint" id="warpHint" data-i18n="warpHint">[ SİBER-WARP İÇİN BASILI TUT ]</div>
 
     <div class="hero-wrapper" id="shakeWrapper">
       <div class="intro">
-        <p>SİSTEM AKTİF // Geliştirici Ağına Bağlanıldı</p>
+        <p id="heroStatus" data-i18n="heroStatus">SİSTEM AKTİF // Geliştirici Ağına Bağlanıldı</p>
         <h1 class="name">Mustafa <span>Durmuş</span></h1>
       </div>
 
@@ -560,31 +649,58 @@
 
   <!-- HAKKIMDA BÖLÜMÜ -->
   <section class="about-section hidden" id="hakkimda">
-    <p class="section-eyebrow">Kreatif Vizyon</p>
-    <h2 class="section-title">Kodların Ötesinde</h2>
-    <p class="about-text">
+    <p class="section-eyebrow" data-i18n="aboutEyebrow">Kreatif Vizyon</p>
+    <h2 class="section-title" data-i18n="aboutTitle">Kodların Ötesinde</h2>
+    <p class="about-text" id="aboutText" data-i18n="aboutText">
       Sadece kod yazmakla kalmıyor, oyuncuları içine çeken <strong>dünyalar, mekanikler ve hikayeler</strong>
       tasarlıyorum. Performans optimizasyonundan detaylı bölüm tasarımlarına kadar, oyun geliştirmenin her aşamasında
       sanatı ve teknik altyapıyı ustalıkla harmanlıyorum.
     </p>
   </section>
 
-  <!-- YETENEKLER BÖLÜMÜ -->
+  <!-- YETENEKLER BÖLÜMÜ (TEÇHİZAT DEPOSU) -->
   <section class="skills-section hidden" id="yetenekler">
-    <p class="section-eyebrow">Cephanelik</p>
-    <h2 class="section-title">Teknoloji & Araçlar</h2>
+    <p class="section-eyebrow" data-i18n="skillsEyebrow">TEÇHİZAT DEPOSU</p>
+    <h2 class="section-title" data-i18n="skillsTitle">Teknoloji & Araçlar</h2>
     <div class="skills-grid">
-      <div class="skill-card"><span>⚙️</span> Unity Engine</div>
-      <div class="skill-card"><span>💻</span> C# & .NET</div>
-      <div class="skill-card"><span>🧠</span> Leonardo AI</div>
-      <div class="skill-card"><span>🤖</span> Claude (AI-Driven Dev)</div>
-      <div class="skill-card"><span>🗃️</span> Git</div>
+      
+      <!-- Unity Engine -->
+      <div class="skill-card">
+        <svg class="blue-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        Unity Engine
+      </div>
+      
+      <!-- C# & .NET -->
+      <div class="skill-card">
+        <svg class="blue-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        C# & .NET
+      </div>
+
+      <!-- Leonardo AI -->
+      <div class="skill-card">
+        <svg class="blue-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Leonardo AI
+      </div>
+
+      <!-- Claude (AI-Driven Dev) -->
+      <div class="skill-card">
+        <svg class="blue-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+        Claude (AI-Driven Dev)
+      </div>
+
+      <!-- Git -->
+      <div class="skill-card">
+        <svg class="blue-icon" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 9v12"/><path d="M18 15a9 9 0 0 0-9-9H6"/></svg>
+        Git
+      </div>
+
     </div>
   </section>
 
+  <!-- OYUNLAR BÖLÜMÜ -->
   <section class="games-section hidden" id="oyunlar">
-    <p class="section-eyebrow">Projeler</p>
-    <h2 class="section-title">Play Store'da Keşfet</h2>
+    <p class="section-eyebrow" data-i18n="projectsEyebrow">Projeler</p>
+    <h2 class="section-title" data-i18n="projectsTitle">Play Store'da Keşfet</h2>
 
     <div class="cards-grid">
       <!-- ROADBOUND ALIEN -->
@@ -594,7 +710,7 @@
         <div class="game-overlay">
           <div class="game-info">
             <h3>Roadbound Alien</h3>
-            <p>Galaksiler arası maceraya atıl ve sınırları zorla.</p>
+            <p data-i18n="alienDesc">Galaksiler arası maceraya atıl ve sınırları zorla.</p>
           </div>
         </div>
         <div class="play-circle">🎮</div>
@@ -607,7 +723,7 @@
         <div class="game-overlay">
           <div class="game-info">
             <h3>Lexy Letter</h3>
-            <p>15 farklı dil desteğiyle zamana karşı yarışarak kelimeleri patlat!</p>
+            <p data-i18n="lexyDesc">15 farklı dil desteğiyle zamana karşı yarışarak kelimeleri patlat!</p>
           </div>
         </div>
         <div class="play-circle">🎮</div>
@@ -619,7 +735,7 @@
         <div class="game-overlay">
           <div class="game-info">
             <h3>Chain Fever</h3>
-            <p>Aynı renkteki blokları patlatarak ilerlediğin sürükleyici bir bulmaca.</p>
+            <p data-i18n="chainDesc">Aynı renkteki blokları patlatarak ilerlediğin sürükleyici bir bulmaca.</p>
           </div>
         </div>
         <div class="play-circle">🎮</div>
@@ -628,22 +744,118 @@
   </section>
 
   <footer id="iletisim">
-    <span>© 2026 Mustafa Durmuş. Tüm Hakları Saklıdır.</span>
+    <span id="footerRights" data-i18n="footerRights">© 2026 Mustafa Durmuş. Tüm Hakları Saklıdır.</span>
     <div class="footer-links">
-      <a href="mailto:darizxstudio@gmail.com">📩 İletişime Geç</a>
-      <a href="https://github.com/DariZx" target="_blank">🐙 GitHub</a>
-      <a href="https://www.linkedin.com/in/mustafa-durmuş-818921320" target="_blank">💼 LinkedIn</a>
+      <!-- Mail İkonu (Gri) -->
+      <a href="mailto:darizxstudio@gmail.com">
+        <svg class="gray-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span data-i18n="contactText">İletişime Geç</span>
+      </a>
+
+      <!-- GitHub İkonu (Gri) -->
+      <a href="https://github.com/DariZx" target="_blank">
+        <svg class="gray-icon" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+
+      <!-- LinkedIn İkonu (Gri) -->
+      <a href="https://www.linkedin.com/in/mustafa-durmu%C5%9F-818921320" target="_blank">
+        <svg class="gray-icon" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
     </div>
   </footer>
 
   <script>
-    // --- CANVAS SİBER-WARP (GERÇEKÇİ YILDIZLAR & FADE-IN) ---
+    // --- TR / EN / ES ÇOK DİLLİ SİSTEM ---
+    const i18nData = {
+      tr: {
+        navUniverse: "Evren",
+        navVision: "Vizyon",
+        navProjects: "Projeler",
+        navContact: "Bağlantı",
+        warpHint: "[ SİBER-WARP İÇİN BASILI TUT ]",
+        heroStatus: "SİSTEM AKTİF // Geliştirici Ağına Bağlanıldı",
+        aboutEyebrow: "Kreatif Vizyon",
+        aboutTitle: "Kodların Ötesinde",
+        aboutText: "Sadece kod yazmakla kalmıyor, oyuncuları içine çeken <strong>dünyalar, mekanikler ve hikayeler</strong> tasarlıyorum. Performans optimizasyonundan detaylı bölüm tasarımlarına kadar, oyun geliştirmenin her aşamasında sanatı ve teknik altyapıyı ustalıkla harmanlıyorum.",
+        skillsEyebrow: "TEÇHİZAT DEPOSU",
+        skillsTitle: "Teknoloji & Araçlar",
+        projectsEyebrow: "Projeler",
+        projectsTitle: "Play Store'da Keşfet",
+        alienDesc: "Galaksiler arası maceraya atıl ve sınırları zorla.",
+        lexyDesc: "15 farklı dil desteğiyle zamana karşı yarışarak kelimeleri patlat!",
+        chainDesc: "Aynı renkteki blokları patlatarak ilerlediğin sürükleyici bir bulmaca.",
+        footerRights: "© 2026 Mustafa Durmuş. Tüm Hakları Saklıdır.",
+        contactText: "İletişime Geç"
+      },
+      en: {
+        navUniverse: "Universe",
+        navVision: "Vision",
+        navProjects: "Projects",
+        navContact: "Contact",
+        warpHint: "[ HOLD FOR CYBER-WARP ]",
+        heroStatus: "SYSTEM ACTIVE // Connected to Developer Network",
+        aboutEyebrow: "Creative Vision",
+        aboutTitle: "Beyond The Code",
+        aboutText: "I don't just write code; I craft <strong>immersive worlds, mechanics, and stories</strong> that captivate players. From performance optimization to detailed level design, I masterfully blend art and technical infrastructure.",
+        skillsEyebrow: "EQUIPMENT STORE",
+        skillsTitle: "Tech & Tools",
+        projectsEyebrow: "Projects",
+        projectsTitle: "Discover on Play Store",
+        alienDesc: "Embark on an intergalactic adventure and push the boundaries.",
+        lexyDesc: "Race against time and pop words with 15 language options!",
+        chainDesc: "An engaging puzzle game where you blast matching colored blocks.",
+        footerRights: "© 2026 Mustafa Durmuş. All Rights Reserved.",
+        contactText: "Contact Me"
+      },
+      es: {
+        navUniverse: "Universo",
+        navVision: "Visión",
+        navProjects: "Proyectos",
+        navContact: "Contacto",
+        warpHint: "[ MANTÉN PRESIONADO PARA CYBER-WARP ]",
+        heroStatus: "SISTEMA ACTIVO // Conectado a la Red de Desarrolladores",
+        aboutEyebrow: "Visión Creativa",
+        aboutTitle: "Más Allá del Código",
+        aboutText: "No solo escribo código; creo <strong>mundos envolventes, mecánicas e historias</strong> que cautivan a los jugadores. Desde la optimización del rendimiento hasta el diseño detallado de niveles, combino el arte y la infraestructura técnica con maestría.",
+        skillsEyebrow: "DEPÓSITO DE EQUIPAMIENTO",
+        skillsTitle: "Tecnología y Herramientas",
+        projectsEyebrow: "Proyectos",
+        projectsTitle: "Descubre en Play Store",
+        alienDesc: "Embárcate en una aventura intergaláctica y desafía los límites.",
+        lexyDesc: "¡Compite contra el tiempo y explota palabras con soporte en 15 idiomas!",
+        chainDesc: "Un juego de rompecabezas adictivo donde explotas bloques del mismo color.",
+        footerRights: "© 2026 Mustafa Durmuş. Todos los derechos reservados.",
+        contactText: "Ponte en Contacto"
+      }
+    };
+
+    function setLanguage(lang) {
+      // Active buton stilini güncelle
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`btn-${lang}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Metinleri değiştir
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18nData[lang] && i18nData[lang][key]) {
+          el.innerHTML = i18nData[lang][key];
+        }
+      });
+    }
+
+    // --- MOBİL CİHAZ OPTİMİZASYON TESPİTİ ---
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+    // --- CANVAS SİBER-WARP ---
     const canvas = document.getElementById('spaceCanvas');
     const ctx = canvas.getContext('2d');
     const shakeWrapper = document.getElementById('shakeWrapper');
     let width, height;
     let particles = [];
-    let mouse = { x: null, y: null, radius: 120 };
+    let mouse = { x: null, y: null, radius: isMobileDevice ? 80 : 120 };
     let isWarping = false;
     let warpSpeed = 0;
 
@@ -656,11 +868,13 @@
     }
     window.addEventListener('resize', resize);
 
-    document.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-    document.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+    if (!isMobileDevice) {
+      document.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      document.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+    }
 
     const heroSection = document.getElementById('hero');
     heroSection.addEventListener('mousedown', () => isWarping = true);
@@ -677,15 +891,13 @@
       reset(initial = false) {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.size = Math.random() * 1.2 + 0.3; // Yıldızlar biraz daha gerçekçi ve minik
-        this.vx = (Math.random() - 0.5) * 0.3; // Hareket hızı biraz dengelendi
+        this.size = Math.random() * 1.2 + 0.3;
+        this.vx = (Math.random() - 0.5) * 0.3;
         this.vy = (Math.random() - 0.5) * 0.3;
         this.prevX = this.x;
         this.prevY = this.y;
-        
-        // FADE-IN MANTIĞI: İlk açılışta rastgele parlaklık, sonradan doğanlarda 0 (Görünmez)
         this.alpha = initial ? (Math.random() * 0.6 + 0.1) : 0;
-        this.targetAlpha = Math.random() * 0.6 + 0.2; // Ulaşacağı maksimum parlaklık
+        this.targetAlpha = Math.random() * 0.6 + 0.2;
       }
       
       update() {
@@ -694,7 +906,6 @@
         let cx = width / 2;
         let cy = height / 2;
 
-        // Saydamlığı yavaşça artır (Ekrana şak diye gelmeyi önler)
         if (this.alpha < this.targetAlpha) {
           this.alpha += 0.015; 
         }
@@ -715,8 +926,6 @@
             this.y = cy + Math.sin(resetAngle) * r;
             this.prevX = this.x;
             this.prevY = this.y;
-            
-            // Ekrandan çıkıp geri döndüğünde GÖRÜNMEZ başlatıyoruz
             this.alpha = 0; 
             this.targetAlpha = Math.random() * 0.7 + 0.3;
           }
@@ -726,7 +935,7 @@
           if (this.x > width || this.x < 0) this.vx = -this.vx;
           if (this.y > height || this.y < 0) this.vy = -this.vy;
 
-          if (mouse.x != null) {
+          if (!isMobileDevice && mouse.x != null) {
             let dx = mouse.x - this.x;
             let dy = mouse.y - this.y;
             let distSq = dx * dx + dy * dy;
@@ -747,7 +956,6 @@
           ctx.beginPath();
           ctx.moveTo(this.prevX, this.prevY);
           ctx.lineTo(this.x, this.y);
-          // Warp sırasında çizginin saydamlığını yıldızın kendi saydamlığına bağladık
           let warpAlpha = Math.min(1, warpSpeed / 10);
           ctx.strokeStyle = `rgba(34, 211, 238, ${this.alpha * warpAlpha})`;
           ctx.lineWidth = this.size * 1.5;
@@ -755,7 +963,6 @@
         } else {
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          // Normal bekleme modunda her yıldız kendi parlaklığında yanar
           ctx.fillStyle = `rgba(45, 212, 191, ${this.alpha})`;
           ctx.fill();
         }
@@ -764,9 +971,8 @@
 
     function init() {
       particles = [];
-      let isMobile = width < 768;
-      let density = isMobile ? 18000 : 10000;
-      let maxParticles = isMobile ? 35 : 110;
+      let maxParticles = isMobileDevice ? 30 : 110;
+      let density = isMobileDevice ? 22000 : 10000;
 
       let numberOfParticles = Math.min(Math.floor((width * height) / density), maxParticles);
 
@@ -795,19 +1001,19 @@
         particles[i].draw();
       }
 
-      // AĞ BAĞLANTILARI (ÇİZGİLER)
+      // Ağ Çizgileri Bağlantısı
       if (warpSpeed < 2) {
         ctx.lineWidth = 0.8;
+        let connectDistSq = isMobileDevice ? 6400 : 12100;
         for (let i = 0; i < particles.length; i++) {
           for (let j = i + 1; j < particles.length; j++) {
             let dx = particles[i].x - particles[j].x;
             let dy = particles[i].y - particles[j].y;
             let distSq = dx * dx + dy * dy;
 
-            if (distSq < 12100) {
+            if (distSq < connectDistSq) {
               let distance = Math.sqrt(distSq);
               ctx.beginPath();
-              // Çizgilerin saydamlığını da yıldızların kendi alpha değerleriyle orantılı kıldık
               let baseAlpha = (0.15 - distance / 110) * (1 - Math.max(0, warpSpeed / 2));
               let minAlpha = Math.min(particles[i].alpha, particles[j].alpha);
               ctx.strokeStyle = `rgba(45, 212, 191, ${baseAlpha * (minAlpha * 2)})`;
