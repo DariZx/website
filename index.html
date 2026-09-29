@@ -1,537 +1,224 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="dark">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mustafa Durmuş - Unity Developer & Game Designer</title>
+  <title>Mustafa Durmuş — Unity Developer & Game Designer</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarala:wght@700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            void: '#040506', ink: '#07080a', obsidian: '#111214', graphite: '#1b1c1e',
+            smoke: '#6a6b6c', ash: '#9c9c9d', mist: '#e6e6e6', iron: '#454647',
+            slate: '#2f3031', coral: '#ff6363', ember: '#452324', sky: '#63a1ff',
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Geist Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
     :root {
-      --bg: #050507;
-      --border: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(45, 212, 191, 0.4);
-      --text: #f2f1f6;
-      --text-muted: #8b8994;
-      --teal: #2dd4bf;
-      --cyan: #22d3ee;
-      --neon-green: #34d399;
-      --card-bg: rgba(15, 17, 26, 0.6);
-      --pure-black: #000000;
-      --card-neon-blue: #5858ed;
+      --color-void-black: #040506; --color-ink: #07080a; --color-obsidian: #111214;
+      --color-graphite: #1b1c1e; --color-smoke: #6a6b6c; --color-ash: #9c9c9d;
+      --color-mist: #e6e6e6; --color-iron: #454647; --color-slate: #2f3031;
+      --color-pure-white: #ffffff; --color-coral-pulse: #ff6363; --color-ember-hush: #452324;
+      --color-electric-sky: #63a1ff;
+      --shadow-key: rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.2) 0px 0px 0px 1px, rgba(0, 0, 0, 0.4) 0px 8px 32px 0px;
+      --shadow-key-hover: rgba(255, 255, 255, 0.12) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.35) 0px 0px 0px 1px, rgba(0, 0, 0, 0.6) 0px 12px 40px 0px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      cursor: crosshair !important;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; background-color: var(--color-void-black); color: var(--color-pure-white); font-family: 'Inter', sans-serif; }
+    body { background-color: var(--color-void-black); overflow-x: hidden; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    section { scroll-margin-top: 7rem; }
+
+    /* SPRING CURSOR */
+    *, *::before, *::after, html, body, a, button, input, select, textarea, [role="button"] {
+      cursor: none !important;
     }
 
-    html {
-      scroll-behavior: smooth;
+    .spring-cursor-ring {
+      position: fixed; top: 0; left: 0; width: 28px; height: 28px;
+      border: 1.5px solid #ff6363; 
+      border-radius: 50%; pointer-events: none; z-index: 99999;
+      transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+      transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                  height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.2s ease, background-color 0.2s ease;
+      box-shadow: 0 0 15px rgba(255, 99, 99, 0.3);
+      will-change: transform;
+    }
+    .spring-cursor-ring.hovering {
+      width: 48px; height: 48px;
+      border-color: #63a1ff; 
+      background-color: rgba(99, 161, 255, 0.15);
+      box-shadow: 0 0 25px rgba(99, 161, 255, 0.45);
+    }
+    .spring-cursor-ring.clicking { background-color: rgba(255, 99, 99, 0.25); }
+
+    .spring-cursor-dot {
+      position: fixed; top: 0; left: 0; width: 5px; height: 5px;
+      background-color: #ffffff; border-radius: 50%; pointer-events: none; z-index: 100000;
+      transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+      box-shadow: 0 0 8px #ffffff; will-change: transform;
     }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      min-height: 100vh;
-      user-select: none;
-      line-height: 1.6;
+    .hero-gradient-wash {
+      background: radial-gradient(circle at 50% 25%, rgba(255, 99, 99, 0.12) 0%, rgba(99, 161, 255, 0.06) 35%, rgba(4, 5, 6, 0) 70%),
+                  radial-gradient(circle at 80% 10%, rgba(20, 60, 163, 0.1) 0%, rgba(4, 5, 6, 0) 50%);
     }
 
-    section {
-      scroll-margin-top: 6rem;
+    .raycast-key-card {
+      background-color: var(--color-ink); border-radius: 16px; box-shadow: var(--shadow-key); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .raycast-key-card:hover { box-shadow: var(--shadow-key-hover); }
 
-    /* ---------- RESIDENT EVIL FLICKER & SLIDE EFEKTLERİ ---------- */
-    @keyframes reFlicker {
-      0% { opacity: 1; transform: translateX(0); text-shadow: none; }
-      15% { opacity: 0.6; transform: translateX(2px); text-shadow: 2px 0 0 rgba(52, 211, 153, 0.6); }
-      30% { opacity: 1; transform: translateX(4px); text-shadow: none; }
-      45% { opacity: 0.4; transform: translateX(4px); }
-      60% { opacity: 1; transform: translateX(6px); text-shadow: -2px 0 0 rgba(255, 255, 255, 0.4); }
-      100% { opacity: 1; transform: translateX(6px); text-shadow: 0 0 8px rgba(52, 211, 153, 0.3); }
-    }
-
-    @keyframes uiGlitch {
-      0% { opacity: 1; }
-      50% { opacity: 0.8; }
-      100% { opacity: 1; }
-    }
-
-    /* ---------- SHINY BUTTON EFEKTİ ---------- */
-    .shiny-fx {
+    /* MİNİMAL TURUNCU CAM EFEKTİ */
+    .hero-badge-glass {
       position: relative;
       overflow: hidden;
-    }
-    
-    .shiny-fx::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -150%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transform: skewX(-25deg);
-      transition: all 0.5s ease;
+      border-radius: 9999px;
+      border: 1px solid var(--color-slate);
+      background-color: var(--color-ink);
+      transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
       z-index: 1;
     }
-    
-    .shiny-fx:hover::before {
-      left: 150%;
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* ---------- SCROLL REVEAL ANIMASYONU ---------- */
-    .hidden {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ---------- NAVBAR ---------- */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.2rem 2.5rem;
-      background: rgba(5, 5, 7, 0.7);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      transition: all 0.3s ease;
-    }
-
-    .nav-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 1.15rem;
-      color: var(--text);
-      text-decoration: none;
-      letter-spacing: 0.03em;
-    }
-
-    .nav-logo span {
-      color: var(--neon-green);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-    }
-
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.3s ease;
-      position: relative;
-      display: inline-block;
-    }
-
-    .nav-links a:hover {
-      color: #fff;
-      animation: reFlicker 0.4s forwards cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* DROPDOWN DİL SEÇİCİ */
-    .lang-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-toggle {
-      background: rgba(52, 211, 153, 0.1);
-      color: var(--neon-green);
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      border-radius: 12px;
-      padding: 0.4rem 0.8rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s ease;
-    }
-
-    .dropdown-toggle:hover {
-      background: rgba(52, 211, 153, 0.2);
-      border-color: var(--neon-green);
-      box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
-    }
-
-    .dropdown-toggle::after {
-      content: '▼';
-      font-size: 0.55rem;
-      opacity: 0.8;
-      transition: transform 0.3s ease;
-    }
-
-    .lang-dropdown.active .dropdown-toggle::after {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      background: rgba(5, 5, 7, 0.95);
-      border: 1px solid rgba(52, 211, 153, 0.2);
-      border-radius: 12px;
-      padding: 0.4rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      min-width: 70px;
-      opacity: 0;
-      transform: translateY(-10px);
-      pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-    }
-
-    .dropdown-menu.show {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .dropdown-item {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.5rem;
-      border-radius: 8px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .dropdown-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-    }
-
-    .dropdown-item.active {
-      color: var(--neon-green);
-      background: rgba(52, 211, 153, 0.1);
-    }
-
-    /* DİKEY MARKA İMZASI */
-    .brand-vertical {
-      position: fixed;
-      left: 1.5rem;
-      top: 50%;
-      transform: translateY(-50%) rotate(180deg);
-      writing-mode: vertical-rl;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.6em;
-      color: rgba(255, 255, 255, 0.08);
-      z-index: 40;
-      transition: all 0.4s ease;
-    }
-
-    .brand-vertical:hover {
-      color: var(--neon-green);
-      text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
-      animation: uiGlitch 0.2s infinite;
-    }
-
-    /* HERO & PREMIUM CANVAS */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 0 1.5rem;
-    }
-
-    .space-canvas {
+    .hero-badge-glass::before {
+      content: '';
       position: absolute;
       inset: 0;
-      z-index: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, #0f111a 0%, #050507 100%);
-    }
-
-    .warp-hint {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      color: rgba(52, 211, 153, 0.5);
-      z-index: 5;
-      pointer-events: none;
-      animation: pulseHint 2.5s infinite alternate;
-    }
-
-    @keyframes pulseHint {
-      from { opacity: 0.3; letter-spacing: 0.2em; }
-      to { opacity: 1; letter-spacing: 0.35em; text-shadow: 0 0 12px rgba(52, 211, 153, 0.5); }
-    }
-
-    .hero-wrapper {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      border-radius: 9999px;
+      background: linear-gradient(180deg, rgba(255, 99, 99, 0.03) 0%, rgba(255, 99, 99, 0.15) 100%);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: -1;
       pointer-events: none;
     }
-
-    .intro {
-      text-align: center;
-      opacity: 0;
-      animation: smoothRise 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    .hero-badge-glass:hover::before {
+      transform: translateY(0);
+    }
+    .hero-badge-glass:hover {
+      border-color: rgba(255, 99, 99, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 99, 99, 0.08);
     }
 
-    .intro p {
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--teal);
-      letter-spacing: 0.1em;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
+    .raycast-button-mist {
+      background-color: var(--color-mist); color: var(--color-iron); border-radius: 8px; font-weight: 500; font-size: 12px; transition: all 0.2s ease; box-shadow: rgba(0, 0, 0, 0.03) 0px 7px 3px 0px, rgba(0, 0, 0, 0.25) 0px 4px 4px 0px;
+    }
+    .raycast-button-mist:hover { background-color: #ffffff; transform: translateY(-1px); }
+    
+    .circular-icon-container { 
+      width: 48px; height: 48px; border-radius: 99999px; background-color: var(--color-obsidian); 
+      border: 1px solid var(--color-slate); display: flex; align-items: center; justify-content: center; 
+      box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset; 
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+      will-change: transform;
+    }
+    .circular-icon-container svg {
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
     }
 
-    .name {
-      font-family: 'Space Grotesk', sans-serif;
+    .skill-card:hover .circular-icon-container { transform: scale(1.15); }
+    .skill-card:hover .circular-icon-container svg { transform: scale(1.12); }
+
+    .raycast-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; }
+    .hidden-reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+    .show-reveal { opacity: 1; transform: translateY(0); }
+    #spaceCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+    .hero-name-font {
+      font-family: 'Sarala', sans-serif;
       font-weight: 700;
-      font-size: clamp(3.5rem, 10vw, 6.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      color: #fff;
-      margin-bottom: 2rem;
+      font-size: clamp(3rem, 7vw, 5.2rem);
+      line-height: 1.15;
     }
 
-    .name span {
-      background: linear-gradient(110deg, #ffffff 10%, var(--neon-green) 50%, var(--teal) 90%);
+    .color-slide-text {
+      background: linear-gradient(to right, #ff6363, #ffffff, #ff9b9b, #ff6363);
+      background-size: 200% auto;
+      color: transparent;
       -webkit-background-clip: text;
       background-clip: text;
-      color: transparent;
+      animation: color-slide-anim 3s linear infinite;
     }
+    @keyframes color-slide-anim { to { background-position: 200% center; } }
 
-    @keyframes smoothRise {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .roll-char { display: inline-flex; flex-direction: column; transition: transform 0.4s cubic-bezier(0.5, 0, 0.2, 1); }
+    .group:hover .roll-char { transform: translateY(-18px); }
 
-    .stats-strip {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      opacity: 0;
-      animation: smoothRise 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      animation-delay: 0.4s;
-      pointer-events: auto;
-    }
-
-    .stat-pill {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      letter-spacing: 0.04em;
-      color: var(--text-muted);
-      padding: 0.7rem 1.4rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.02);
-      backdrop-filter: blur(12px);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .stat-pill:hover {
-      background: rgba(52, 211, 153, 0.08);
-      border-color: var(--neon-green);
-      color: #fff;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(52, 211, 153, 0.15);
-    }
-
-    /* VİZYON / HAKKIMDA BÖLÜMÜ */
-    .about-section {
-      position: relative;
-      z-index: 3;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 8rem 1.5rem 2rem;
-      text-align: center;
-    }
-
-    .about-text {
-      font-size: clamp(1.1rem, 2vw, 1.35rem);
-      color: var(--text-muted);
-      line-height: 1.8;
-      font-weight: 400;
-    }
-
-    .about-text strong {
-      color: #fff;
-      font-weight: 600;
-    }
-
-    /* YETENEKLER BÖLÜMÜ */
-    .skills-section {
-      position: relative;
-      z-index: 3;
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 6rem 1.5rem 2rem;
-    }
-
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2.5rem;
-    }
-
-    .skill-card {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 1rem 1.5rem;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      color: var(--text);
-      transition: all 0.3s ease;
-    }
-
-    .blue-icon {
-      width: 20px;
-      height: 20px;
-      fill: none;
-      stroke: var(--neon-green);
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.4));
-    }
-
-    .skill-card:hover {
-      border-color: var(--neon-green);
-      background: rgba(52, 211, 153, 0.05);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    }
-
-    /* OYUNLAR BÖLÜMÜ */
-    .games-section {
-      position: relative;
-      z-index: 3;
-      width: 100%;
-      background: var(--pure-black);
-      padding: 8rem 1.5rem 9rem;
-      border-top: 1px solid rgba(52, 211, 153, 0.1);
-      border-bottom: 1px solid rgba(52, 211, 153, 0.1);
-      box-shadow: inset 0 30px 60px rgba(0,0,0,1), inset 0 -30px 60px rgba(0,0,0,1);
-    }
-
-    .games-container {
-      max-width: 1080px;
-      margin: 0 auto;
-    }
-
-    .section-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--neon-green);
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: clamp(2rem, 4vw, 2.75rem);
-      text-align: center;
-      margin-bottom: 4rem;
-      color: #fff;
-    }
-
+    /* OYUN KARTLARI VE AYDINLATILMIŞ GÖRSELLER */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
-      perspective: 1200px;
+      perspective: 1000px;
     }
 
-    @media (max-width: 850px) {
-      .cards-grid { grid-template-columns: 1fr 1fr; }
-      .nav-links { display: none; }
-    }
+    @media (max-width: 950px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 650px) { .cards-grid { grid-template-columns: 1fr; } }
 
-    @media (max-width: 550px) {
-      .cards-grid { grid-template-columns: 1fr; }
-      .navbar { padding: 1rem 1.2rem; }
-      .brand-vertical { display: none; }
-    }
-
-    /* 3D TILT PENCERE EFEKTİ GÜNCELLEMESİ */
     .game-card {
       position: relative;
       display: block;
       text-decoration: none;
-      border-radius: 20px;
+      border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(88, 88, 237, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       aspect-ratio: 3 / 4;
-      background: #080911;
-      transition: transform 0.15s ease-out, border-color 0.4s ease, box-shadow 0.4s ease;
+      background: #07080a;
+      transition: transform 0.1s ease-out, border-color 0.4s ease, box-shadow 0.4s ease;
       transform-style: preserve-3d;
       will-change: transform;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(88, 88, 237, 0.15);
     }
 
-    .game-card:hover {
-      border-color: #7068ff;
-      box-shadow: 0 0 35px rgba(88, 88, 237, 0.5), 0 0 15px rgba(34, 211, 238, 0.3), inset 0 0 20px rgba(88, 88, 237, 0.25);
+    /* Kart Üstüne Gelince Yumuşak Parlama Efekti */
+    .game-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.18) 0%, transparent 65%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .game-card:hover::after { opacity: 1; }
+
+    .game-card-red:hover {
+      border-color: rgba(255, 99, 99, 0.8);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 99, 99, 0.35);
     }
 
+    .game-card-blue:hover {
+      border-color: rgba(99, 161, 255, 0.8);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 35px rgba(99, 161, 255, 0.35);
+    }
+
+    .game-card-green:hover {
+      border-color: rgba(52, 211, 153, 0.8);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 35px rgba(52, 211, 153, 0.35);
+    }
+
+    /* Daha Aydınlık Görseller & Hover Parlaması */
     .game-image {
       position: absolute;
       inset: 0;
@@ -539,31 +226,26 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
-      opacity: 0.7;
+      opacity: 0.85; /* Daha net ve aydınlık */
+      filter: brightness(0.95) contrast(1.05);
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      filter: grayscale(20%);
     }
 
     .game-card:hover .game-image {
-      transform: scale(1.08);
-      opacity: 1;
-      filter: grayscale(0%);
+      transform: scale(1.06);
+      opacity: 1; /* Tam parlaklık */
+      filter: brightness(1.25) contrast(1.1); /* Işık parlaması */
     }
 
     .game-overlay {
       position: absolute;
       inset: 0;
-      z-index: 1;
+      z-index: 2;
       display: flex;
       align-items: flex-end;
-      padding: 2rem;
-      background: linear-gradient(180deg, transparent 0%, rgba(5, 5, 12, 0.85) 60%, rgba(5, 5, 12, 0.98) 100%);
-      transition: all 0.4s ease;
-      transform: translateZ(20px);
-    }
-
-    .game-card:hover .game-overlay {
-      background: linear-gradient(180deg, transparent 0%, rgba(5, 5, 12, 0.6) 40%, rgba(5, 5, 12, 0.95) 100%);
+      padding: 1.8rem;
+      background: linear-gradient(180deg, transparent 20%, rgba(7, 8, 10, 0.6) 60%, rgba(7, 8, 10, 0.96) 100%);
+      transform: translateZ(30px);
     }
 
     .game-info {
@@ -578,626 +260,550 @@
     .game-genre {
       display: inline-block;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      color: #fff;
-      background: rgba(88, 88, 237, 0.25);
-      border: 1px solid rgba(88, 88, 237, 0.6);
-      padding: 0.3rem 0.6rem;
-      border-radius: 4px;
-      margin-bottom: 0.7rem;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      margin-bottom: 0.8rem;
       text-transform: uppercase;
-      box-shadow: 0 0 12px rgba(88, 88, 237, 0.4);
+      border-width: 1px;
       transition: all 0.3s ease;
-    }
-
-    .game-card:hover .game-genre {
-      background: var(--card-neon-blue);
-      border-color: var(--card-neon-blue);
-      color: #fff;
-      box-shadow: 0 0 20px rgba(88, 88, 237, 0.8);
-      transform: scale(1.05);
+      backdrop-filter: blur(6px);
     }
 
     .game-info h3 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-weight: 700;
       font-size: 1.4rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       color: #fff;
-      transition: color 0.3s ease;
-    }
-
-    .game-card:hover .game-info h3 {
-      color: #a5a2ff;
-      animation: uiGlitch 0.3s ease-in-out;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
     }
 
     .game-info p {
-      color: var(--text-muted);
+      color: #c4c4c8;
       font-size: 0.9rem;
-      line-height: 1.5;
+      line-height: 1.45;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
     }
 
-    .play-circle {
-      position: absolute;
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -30%) scale(0.85) translateZ(30px);
-      z-index: 2;
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(88, 88, 237, 0.2);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(88, 88, 237, 0.5);
-      color: #fff;
-      font-size: 1.4rem;
+    /* TEKNOLOJİ VE ARAÇLAR Hover Gölge Efektleri */
+    .skill-card {
+      transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .skill-card.hover-coral:hover { box-shadow: 0 8px 25px -5px rgba(255, 99, 99, 0.3); }
+    .skill-card.hover-sky:hover { box-shadow: 0 8px 25px -5px rgba(99, 161, 255, 0.3); }
+    .skill-card.hover-amber:hover { box-shadow: 0 8px 25px -5px rgba(251, 191, 36, 0.3); }
+    .skill-card.hover-purple:hover { box-shadow: 0 8px 25px -5px rgba(192, 132, 252, 0.3); }
+    .skill-card.hover-emerald:hover { box-shadow: 0 8px 25px -5px rgba(52, 211, 153, 0.3); }
+
+    /* Staggering reveal */
+    #yetenekler .skill-card {
       opacity: 0;
-      pointer-events: none;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    .game-card:hover .play-circle {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1) translateZ(40px);
-      pointer-events: auto;
-      background: rgba(88, 88, 237, 0.35);
-      border-color: #8b88ff;
-      box-shadow: 0 0 30px rgba(88, 88, 237, 0.6);
-      color: #fff;
-    }
-
-    /* FOOTER */
-    footer {
-      position: relative;
-      z-index: 3;
-      text-align: center;
-      padding: 3rem 1.5rem 4rem;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      border-top: 1px solid var(--border);
-      background: var(--pure-black);
-    }
-
-    .footer-links {
-      margin-top: 1.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    footer a {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: all 0.3s ease;
-      border: 1px solid var(--border);
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      background: rgba(15, 17, 26, 0.4);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .gray-icon {
-      width: 16px;
-      height: 16px;
-      fill: none;
-      stroke: var(--text-muted);
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: stroke 0.3s ease;
-    }
-
-    footer a:hover {
-      color: var(--neon-green);
-      border-color: var(--neon-green);
-      background: rgba(52, 211, 153, 0.05);
-      transform: translateY(-2px);
-    }
-
-    footer a:hover .gray-icon {
-      stroke: var(--neon-green);
-    }
+    #yetenekler.show-reveal .skill-card { opacity: 1; transform: translateY(0); }
+    #yetenekler.show-reveal .skill-card:nth-child(1) { transition-delay: 0.08s; }
+    #yetenekler.show-reveal .skill-card:nth-child(2) { transition-delay: 0.16s; }
+    #yetenekler.show-reveal .skill-card:nth-child(3) { transition-delay: 0.24s; }
+    #yetenekler.show-reveal .skill-card:nth-child(4) { transition-delay: 0.32s; }
+    #yetenekler.show-reveal .skill-card:nth-child(5) { transition-delay: 0.40s; }
   </style>
 </head>
 
-<body>
+<body class="relative text-ash selection:bg-coral selection:text-white">
 
-  <nav class="navbar">
-    <a class="nav-logo" href="#hero">Mustafa<span>.</span></a>
-    <div class="nav-right">
-      <div class="nav-links">
-        <a href="#hero" data-i18n="navUniverse">Evren</a>
-        <a href="#hakkimda" data-i18n="navVision">Vizyon</a>
-        <a href="#oyunlar" data-i18n="navProjects">Projeler</a>
-        <a href="#iletisim" data-i18n="navContact">Bağlantı</a>
+  <!-- YAYLI İMLEÇ -->
+  <div class="spring-cursor-ring" id="springCursorRing"></div>
+  <div class="spring-cursor-dot" id="springCursorDot"></div>
+
+  <!-- Debug Panel -->
+  <div id="debugPanel" class="fixed bottom-4 left-4 font-mono text-[11px] text-coral/80 bg-ink/70 p-3 rounded-lg border border-slate/50 z-[9000] pointer-events-none backdrop-blur-md hidden md:block">
+    <div>{</div>
+    <div class="ml-3">mouseX: <span id="dbgX" class="text-white">0</span>;</div>
+    <div class="ml-3">mouseY: <span id="dbgY" class="text-white">0</span>;</div>
+    <div class="ml-3">keyPressed: <span id="dbgKey" class="text-white">""</span>;</div>
+    <div class="ml-3">status: <span class="text-emerald-400">"dev_mode"</span>;</div>
+    <div>}</div>
+  </div>
+
+  <canvas id="spaceCanvas"></canvas>
+
+  <div class="fixed left-6 top-1/2 -translate-y-1/2 rotate-180 [writing-mode:vertical-rl] font-mono text-[11px] tracking-[0.4em] text-smoke z-40 hidden md:block hover:text-coral transition-colors duration-300">
+    DARIZX
+  </div>
+
+  <!-- NavBar -->
+  <header class="fixed top-5 left-0 right-0 z-50 px-4 flex justify-center">
+    <nav class="w-full max-w-4xl bg-ink/75 backdrop-blur-[48px] border border-slate/80 rounded-full px-5 py-2.5 flex items-center justify-between shadow-2xl">
+      <a href="#hero" class="flex items-center group">
+        <span class="text-white text-[15px] font-medium tracking-tight">Mustafa<span class="text-coral font-normal">.</span></span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-6 text-[13px] font-medium text-ash">
+        <a href="#hero" class="group nav-roll" data-i18n-roll="navUniverse">Evren</a>
+        <a href="#hakkimda" class="group nav-roll" data-i18n-roll="navVision">Vizyon</a>
+        <a href="#yetenekler" class="group nav-roll" data-i18n-roll="navSkills">Teçhizat</a>
+        <a href="#oyunlar" class="group nav-roll" data-i18n-roll="navProjects">Projeler</a>
       </div>
 
-      <div class="lang-dropdown" id="langDropdown">
-        <button class="dropdown-toggle shiny-fx" id="current-lang" onclick="toggleLangMenu(event)">TR</button>
-        <div class="dropdown-menu" id="langMenu">
-          <button class="dropdown-item active" id="btn-tr" onclick="setLanguage('tr', event)">TR</button>
-          <button class="dropdown-item" id="btn-en" onclick="setLanguage('en', event)">EN</button>
-          <button class="dropdown-item" id="btn-es" onclick="setLanguage('es', event)">ES</button>
+      <div class="flex items-center gap-2.5">
+        
+        <!-- DİL SEÇİM PANELİ -->
+        <div class="relative inline-block text-left" id="langDropdown">
+          <button onclick="toggleLangMenu(event)" type="button" class="bg-obsidian border border-slate/90 text-white hover:border-coral rounded-full px-3.5 py-1.5 text-xs font-mono font-medium flex items-center gap-1.5 transition-all shadow-md hover:shadow-coral/10">
+            <svg class="w-3.5 h-3.5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span id="current-lang-text">TR</span>
+            <svg class="w-3 h-3 text-smoke" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          
+          <div id="langMenu" class="hidden absolute right-0 mt-2 w-[72px] bg-ink/95 backdrop-blur-md border border-slate/90 rounded-xl p-1 shadow-2xl flex flex-col gap-0.5 z-50">
+            <button id="btn-tr" onclick="setLanguage('tr', event)" data-lang="tr" class="w-full text-left px-2 py-1 rounded-md text-[11px] font-mono font-medium text-ash hover:text-white hover:bg-obsidian flex items-center justify-between transition-colors text-coral bg-coral/10">
+              <span>TR</span>
+              <svg class="w-3 h-3 text-coral shrink-0 ml-auto" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button id="btn-en" onclick="setLanguage('en', event)" data-lang="en" class="w-full text-left px-2 py-1 rounded-md text-[11px] font-mono font-medium text-ash hover:text-white hover:bg-obsidian flex items-center justify-between transition-colors">
+              <span>EN</span>
+            </button>
+            <button id="btn-es" onclick="setLanguage('es', event)" data-lang="es" class="w-full text-left px-2 py-1 rounded-md text-[11px] font-mono font-medium text-ash hover:text-white hover:bg-obsidian flex items-center justify-between transition-colors">
+              <span>ES</span>
+            </button>
+            <button id="btn-da" onclick="setLanguage('da', event)" data-lang="da" class="w-full text-left px-2 py-1 rounded-md text-[11px] font-mono font-medium text-ash hover:text-white hover:bg-obsidian flex items-center justify-between transition-colors">
+              <span>DA</span>
+            </button>
+          </div>
+        </div>
+
+        <a href="#iletisim" class="raycast-button-mist px-3 py-1 flex items-center gap-1.5">
+          <span data-i18n="navContact">İletişime Geç</span>
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-16 px-4 z-10 hero-gradient-wash">
+    <div id="shakeWrapper" class="w-full max-w-4xl text-center space-y-6">
+      
+      <h1 class="hero-name-font text-white mb-2 pb-2">
+        Mustafa <span class="color-slide-text">Durmuş</span>
+      </h1>
+
+      <p class="text-ash text-base md:text-lg max-w-xl mx-auto font-normal leading-relaxed mt-4" data-i18n="heroSubtitle">
+        Sürükleyici mekanikler, performans optimizasyonlu gerçek zamanlı mimariler ve interaktif dijital dünyalar tasarlayan Unity Geliştiricisi & Oyun Tasarımcısı.
+      </p>
+
+      <!-- MİNİMAL TURUNCU CAM EFEKTLİ TEKNOLOJİ ETİKETLERİ -->
+      <div class="pt-4 flex flex-wrap items-center justify-center gap-3">
+        <div class="hero-badge-glass px-4 py-2 text-xs font-mono text-ash flex items-center gap-2 select-none"><span class="text-coral">🎮</span> Unity Engine</div>
+        <div class="hero-badge-glass px-4 py-2 text-xs font-mono text-ash flex items-center gap-2 select-none"><span class="text-sky">⚙️</span> C# / .NET</div>
+        <div class="hero-badge-glass px-4 py-2 text-xs font-mono text-ash flex items-center gap-2 select-none"><span class="text-emerald-400">🕹️</span> Gameplay Mechanics</div>
+        <div class="hero-badge-glass px-4 py-2 text-xs font-mono text-ash flex items-center gap-2 select-none"><span class="text-purple-400">🤖</span> AI-Assisted Dev</div>
+      </div>
+    </div>
+    
+    <div id="warpHint" class="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-[11px] tracking-[0.2em] text-coral/70 animate-pulse pointer-events-none" data-i18n="warpHint">
+      [ SİBER-WARP İÇİN BASILI TUT ]
+    </div>
+  </section>
+
+  <main class="w-full max-w-5xl mx-auto px-4 space-y-32 pb-20 relative z-10">
+
+    <section id="hakkimda" class="hidden-reveal">
+      <div class="raycast-key-card p-8 md:p-12 relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-60 h-60 bg-ember/30 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-3xl space-y-6">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-coral"></span>
+            <span class="raycast-eyebrow text-coral" data-i18n="aboutEyebrow">KREATİF VİZYON</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-medium text-white tracking-tight" data-i18n="aboutTitle">Kodların Ötesinde</h2>
+          <p class="text-ash text-base md:text-lg leading-relaxed font-normal" id="aboutText" data-i18n="aboutText">
+            Sadece kod yazmakla kalmıyor, oyuncuları içine çeken <strong class="text-white font-medium">dünyalar, mekanikler ve hikayeler</strong> tasarlıyorum. Performans optimizasyonundan detaylı bölüm tasarımlarına kadar, oyun geliştirmenin her aşamasında sanatı ve teknik altyapıyı ustalıkla harmanlıyorum.
+          </p>
+          
+          <div class="pt-4 grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-slate/60 text-xs font-mono text-smoke">
+            <div><span class="block text-ash font-medium text-sm">3+</span><span class="text-[11px]" data-i18n="statPlayStore">Play Store Yayınlanma</span></div>
+            <div><span class="block text-ash font-medium text-sm">15+</span><span class="text-[11px]" data-i18n="statLocLangs">Lokalizasyon Dili</span></div>
+            <div><span class="block text-ash font-medium text-sm">60 FPS</span><span class="text-[11px]" data-i18n="statFpsOpt">Hedef Optimizasyon</span></div>
+            <div><span class="block text-ash font-medium text-sm">100%</span><span class="text-[11px]" data-i18n="statCleanArch">Temiz Mimari</span></div>
+          </div>
         </div>
       </div>
+    </section>
 
-    </div>
-  </nav>
-
-  <div class="brand-vertical">DARIZX</div>
-
-  <section class="hero" id="hero">
-    <canvas id="spaceCanvas" class="space-canvas"></canvas>
-    <div class="warp-hint" id="warpHint" data-i18n="warpHint">[ SİBER-WARP İÇİN BASILI TUT ]</div>
-
-    <div class="hero-wrapper" id="shakeWrapper">
-      <div class="intro">
-        <p id="heroStatus" data-i18n="heroStatus">SİSTEM AKTİF // Geliştirici Ağına Bağlanıldı</p>
-        <h1 class="name">Mustafa <span>Durmuş</span></h1>
+    <!-- TEKNOLOJİ VE ARAÇLAR -->
+    <section id="yetenekler" class="hidden-reveal space-y-8">
+      <div class="text-center space-y-2">
+        <span class="raycast-eyebrow text-ash" data-i18n="skillsEyebrow">TEÇHİZAT DEPOSU</span>
+        <h2 class="text-2xl md:text-3xl font-medium text-white tracking-tight" data-i18n="skillsTitle">Teknoloji & Araçlar</h2>
       </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        
+        <div class="raycast-key-card skill-card hover-coral p-5 flex flex-col items-center text-center space-y-3 group hover:border-coral/60 cursor-pointer">
+          <div class="circular-icon-container group-hover:border-coral">
+            <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <div><h3 class="text-white text-sm font-medium">Unity Engine</h3><span class="text-[11px] font-mono text-smoke">Core Development</span></div>
+        </div>
 
-      <div class="stats-strip">
-        <span class="stat-pill shiny-fx">🎮 Unity Developer</span>
-        <span class="stat-pill shiny-fx">⚙️ C# / .NET</span>
-        <span class="stat-pill shiny-fx">🕹️ Game Design</span>
+        <div class="raycast-key-card skill-card hover-sky p-5 flex flex-col items-center text-center space-y-3 group hover:border-sky/60 cursor-pointer">
+          <div class="circular-icon-container group-hover:border-sky">
+            <svg class="w-6 h-6 text-sky" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <polyline points="8 6 2 12 8 18"/>
+              <polyline points="16 18 22 12 16 6"/>
+            </svg>
+          </div>
+          <div><h3 class="text-white text-sm font-medium">C# & .NET</h3><span class="text-[11px] font-mono text-smoke">Logic & Architecture</span></div>
+        </div>
+
+        <div class="raycast-key-card skill-card hover-amber p-5 flex flex-col items-center text-center space-y-3 group hover:border-amber-400/60 cursor-pointer">
+          <div class="circular-icon-container group-hover:border-amber-400">
+            <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div><h3 class="text-white text-sm font-medium">Leonardo AI</h3><span class="text-[11px] font-mono text-smoke">Asset Generation</span></div>
+        </div>
+
+        <div class="raycast-key-card skill-card hover-purple p-5 flex flex-col items-center text-center space-y-3 group hover:border-purple-400/60 cursor-pointer">
+          <div class="circular-icon-container group-hover:border-purple-400">
+            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+          </div>
+          <div><h3 class="text-white text-sm font-medium">Claude & LLMs</h3><span class="text-[11px] font-mono text-smoke">AI Workflow</span></div>
+        </div>
+
+        <div class="raycast-key-card skill-card hover-emerald p-5 flex flex-col items-center text-center space-y-3 group hover:border-emerald-400/60 col-span-2 sm:col-span-1 cursor-pointer">
+          <div class="circular-icon-container group-hover:border-emerald-400">
+            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 9v12"/><path d="M18 15a9 9 0 0 0-9-9H6"/></svg>
+          </div>
+          <div><h3 class="text-white text-sm font-medium">Git & DevOps</h3><span class="text-[11px] font-mono text-smoke">Version Control</span></div>
+        </div>
+
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="about-section hidden" id="hakkimda">
-    <p class="section-eyebrow" data-i18n="aboutEyebrow">Kreatif Vizyon</p>
-    <h2 class="section-title" data-i18n="aboutTitle">Kodların Ötesinde</h2>
-    <p class="about-text" id="aboutText" data-i18n="aboutText">
-      Sadece kod yazmakla kalmıyor, oyuncuları içine çeken <strong>dünyalar, mekanikler ve hikayeler</strong>
-      tasarlıyorum. Performans optimizasyonundan detaylı bölüm tasarımlarına kadar, oyun geliştirmenin her aşamasında
-      sanatı ve teknik altyapıyı ustalıkla harmanlıyorum.
-    </p>
-  </section>
-
-  <section class="skills-section hidden" id="yetenekler">
-    <p class="section-eyebrow" data-i18n="skillsEyebrow">TEÇHİZAT DEPOSU</p>
-    <h2 class="section-title" data-i18n="skillsTitle">Teknoloji & Araçlar</h2>
-    <div class="skills-grid">
-
-      <div class="skill-card">
-        <svg class="blue-icon" viewBox="0 0 24 24">
-          <polygon points="12 2 2 7 12 12 22 7 12 2" />
-          <polyline points="2 17 12 22 22 17" />
-          <polyline points="2 12 12 17 22 12" />
-        </svg>
-        Unity Engine
+    <!-- PROJELER (TEMİZLENMİŞ & AYDINLATILMIŞ KARTLAR) -->
+    <section id="oyunlar" class="hidden-reveal space-y-8 relative">
+      <div class="text-center space-y-2 pb-4">
+        <span class="raycast-eyebrow text-ash" data-i18n="projectsEyebrow">PROJELER</span>
+        <h2 class="text-2xl md:text-3xl font-medium text-white tracking-tight" data-i18n="projectsTitle">
+          Play Store'da Keşfet
+        </h2>
       </div>
-
-      <div class="skill-card">
-        <svg class="blue-icon" viewBox="0 0 24 24">
-          <polyline points="16 18 22 12 16 6" />
-          <polyline points="8 6 2 12 8 18" />
-        </svg>
-        C# & .NET
-      </div>
-
-      <div class="skill-card">
-        <svg class="blue-icon" viewBox="0 0 24 24">
-          <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
-          <circle cx="12" cy="12" r="3" />
-        </svg>
-        Leonardo AI
-      </div>
-
-      <div class="skill-card">
-        <svg class="blue-icon" viewBox="0 0 24 24">
-          <rect x="3" y="11" width="18" height="10" rx="2" />
-          <circle cx="12" cy="5" r="2" />
-          <path d="M12 7v4" />
-          <line x1="8" y1="16" x2="8" y2="16" />
-          <line x1="16" y1="16" x2="16" y2="16" />
-        </svg>
-        Claude (AI-Driven Dev)
-      </div>
-
-      <div class="skill-card">
-        <svg class="blue-icon" viewBox="0 0 24 24">
-          <circle cx="18" cy="18" r="3" />
-          <circle cx="6" cy="6" r="3" />
-          <path d="M6 9v12" />
-          <path d="M18 15a9 9 0 0 0-9-9H6" />
-        </svg>
-        Git
-      </div>
-
-    </div>
-  </section>
-
-  <section class="games-section" id="oyunlar">
-    <div class="games-container hidden">
-      <p class="section-eyebrow" data-i18n="projectsEyebrow">Projeler</p>
-      <h2 class="section-title" data-i18n="projectsTitle">Play Store'da Keşfet</h2>
 
       <div class="cards-grid">
-        <a href="https://play.google.com/store/apps/details?id=com.darizx.gamealien&hl=tr" target="_blank"
-          class="game-card">
-          <img src="alien.jpg" alt="Roadbound Alien" class="game-image">
+        
+        <a href="https://play.google.com/store/apps/details?id=com.darizx.gamealien&hl=tr" target="_blank" class="game-card game-card-red cursor-none">
+          <img src="alien.jpg" onerror="this.onerror=null; this.src='https://placehold.co/1200x500/07080a/ff6363?text=Roadbound+Alien';" alt="Roadbound Alien" class="game-image">
           <div class="game-overlay">
             <div class="game-info">
-              <span class="game-genre">CASUAL / ARCADE</span>
+              <span class="game-genre text-coral bg-coral/10 border-coral/30">CASUAL / ARCADE</span>
               <h3>Roadbound Alien</h3>
               <p data-i18n="alienDesc">Galaksiler arası maceraya atıl ve sınırları zorla.</p>
             </div>
           </div>
-          <div class="play-circle shiny-fx">🎮</div>
         </a>
 
-        <a href="https://play.google.com/store/apps/details?id=com.DariZxStudio.LexyLetter" target="_blank"
-          class="game-card">
-          <img src="lexy.jpg" alt="Lexy Letter" class="game-image">
+        <a href="https://play.google.com/store/apps/details?id=com.DariZxStudio.LexyLetter" target="_blank" class="game-card game-card-blue cursor-none">
+          <img src="lexy.jpg" onerror="this.onerror=null; this.src='https://placehold.co/1200x500/07080a/63a1ff?text=Lexy+Letter';" alt="Lexy Letter" class="game-image">
           <div class="game-overlay">
             <div class="game-info">
-              <span class="game-genre">WORD / PUZZLE</span>
+              <span class="game-genre text-sky bg-sky/10 border-sky/30">WORD / PUZZLE</span>
               <h3>Lexy Letter</h3>
               <p data-i18n="lexyDesc">15 farklı dil desteğiyle zamana karşı yarışarak kelimeleri patlat!</p>
             </div>
           </div>
-          <div class="play-circle shiny-fx">🎮</div>
         </a>
 
-        <a href="https://play.google.com/store/apps/details?id=com.darizx.chainfever" target="_blank" class="game-card">
-          <img src="chain.jpg" alt="Chain Fever" class="game-image">
+        <a href="https://play.google.com/store/apps/details?id=com.darizx.chainfever" target="_blank" class="game-card game-card-green cursor-none">
+          <img src="chain.jpg" onerror="this.onerror=null; this.src='https://placehold.co/1200x500/07080a/59d499?text=Chain+Fever';" alt="Chain Fever" class="game-image">
           <div class="game-overlay">
             <div class="game-info">
-              <span class="game-genre">PUZZLE / CASUAL</span>
+              <span class="game-genre text-emerald-400 bg-emerald-400/10 border-emerald-400/30">PUZZLE / CASUAL</span>
               <h3>Chain Fever</h3>
               <p data-i18n="chainDesc">Aynı renkteki blokları patlatarak ilerlediğin sürükleyici bir bulmaca.</p>
             </div>
           </div>
-          <div class="play-circle shiny-fx">🎮</div>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="iletisim" class="w-full bg-ink/80 border-t border-slate py-12 px-4 relative z-10">
+    <div class="max-w-4xl mx-auto flex flex-col items-center text-center space-y-6">
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="mailto:darizxstudio@gmail.com" class="raycast-key-card px-4 py-2 text-xs font-mono text-ash hover:text-white flex items-center gap-2 transition-all cursor-none">
+          <svg class="w-4 h-4 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span data-i18n="contactText">İletişime Geç</span>
+        </a>
+        <a href="https://github.com/DariZx" target="_blank" class="raycast-key-card px-4 py-2 text-xs font-mono text-ash hover:text-white flex items-center gap-2 transition-all cursor-none">
+          <svg class="w-4 h-4 text-sky" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/mustafa-durmu%C5%9F-818921320" target="_blank" class="raycast-key-card px-4 py-2 text-xs font-mono text-ash hover:text-white flex items-center gap-2 transition-all cursor-none">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
         </a>
       </div>
-    </div>
-  </section>
-
-  <footer id="iletisim">
-    <span id="footerRights" data-i18n="footerRights">© 2026 Mustafa Durmuş. Tüm Hakları Saklıdır.</span>
-    <div class="footer-links">
-      <a href="mailto:darizxstudio@gmail.com" class="shiny-fx">
-        <svg class="gray-icon" viewBox="0 0 24 24">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-          <polyline points="22,6 12,13 2,6" />
-        </svg>
-        <span data-i18n="contactText">İletişime Geç</span>
-      </a>
-      <a href="https://github.com/DariZx" target="_blank" class="shiny-fx">
-        <svg class="gray-icon" viewBox="0 0 24 24">
-          <path
-            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-        </svg>
-        GitHub
-      </a>
-      <a href="https://www.linkedin.com/in/mustafa-durmu%C5%9F-818921320" target="_blank" class="shiny-fx">
-        <svg class="gray-icon" viewBox="0 0 24 24">
-          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-          <rect x="2" y="9" width="4" height="12" />
-          <circle cx="4" cy="4" r="2" />
-        </svg>
-        LinkedIn
-      </a>
+      <div class="font-mono text-xs text-smoke flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+        <span id="footerRights" data-i18n="footerRights">© 2026 Mustafa Durmuş. Tüm Hakları Saklıdır.</span>
+      </div>
     </div>
   </footer>
 
   <script>
+    /* SPRING CURSOR */
+    (function () {
+      const ring = document.getElementById('springCursorRing');
+      const dot = document.getElementById('springCursorDot');
+
+      let targetX = -100, targetY = -100;
+      let springX = -100, springY = -100;
+      let vx = 0, vy = 0;
+      let isMouseDown = false;
+
+      const stiffness = 0.14;
+      const damping = 0.72;
+
+      window.addEventListener('mousemove', (e) => {
+        targetX = e.clientX; targetY = e.clientY;
+        if (dot) dot.style.transform = `translate3d(${targetX}px,${targetY}px, 0) translate(-50\%, -50\%)`;                  const dbgX = document.getElementById('dbgX');         const dbgY = document.getElementById('dbgY');         if(dbgX && dbgY) { dbgX.innerText = targetX; dbgY.innerText = targetY; }       });        window.addEventListener('mousedown', () => { isMouseDown = true; if (ring) ring.classList.add('clicking'); });       window.addEventListener('mouseup', () => { isMouseDown = false; if (ring) ring.classList.remove('clicking'); });        function attachHoverListeners() {         const interactiveElements = document.querySelectorAll('a, button, .nav-roll, .raycast-button-mist, .raycast-key-card, .game-card, .hero-badge-glass');         interactiveElements.forEach((el) => {           el.addEventListener('mouseenter', () => ring && ring.classList.add('hovering'));           el.addEventListener('mouseleave', () => ring && ring.classList.remove('hovering'));         });       }       attachHoverListeners();        function animateCursor() {         const ax = (targetX - springX) * stiffness;         const ay = (targetY - springY) * stiffness;         vx = (vx + ax) * damping; vy = (vy + ay) * damping;         springX += vx; springY += vy;          if (ring) {           const clickScale = isMouseDown ? ' scale(0.8)' : '';           ring.style.transform = `translate3d(${springX}px, ${springY}px, 0) translate(-50\%, -50\%)${clickScale}`;
+        }
+        requestAnimationFrame(animateCursor);
+      }
+      if (!/Android|webOS|iPhone|iPad/i.test(navigator.userAgent)) {
+        requestAnimationFrame(animateCursor);
+      } else {
+        if(ring) ring.style.display = 'none';
+        if(dot) dot.style.display = 'none';
+        document.body.style.cursor = 'auto'; 
+      }
+    })();
+
+    /* DICTIONARY (TR, EN, ES, DA) */
     const i18nData = {
       tr: {
-        navUniverse: "Evren",
-        navVision: "Vizyon",
-        navProjects: "Projeler",
-        navContact: "Bağlantı",
+        navUniverse: "Evren", navVision: "Vizyon", navSkills: "Teçhizat", navProjects: "Projeler", navContact: "İletişime Geç",
         warpHint: "[ SİBER-WARP İÇİN BASILI TUT ]",
-        heroStatus: "SİSTEM AKTİF // Geliştirici Ağına Bağlanıldı",
-        aboutEyebrow: "Kreatif Vizyon",
-        aboutTitle: "Kodların Ötesinde",
-        aboutText: "Sadece kod yazmakla kalmıyor, oyuncuları içine çeken <strong>dünyalar, mekanikler ve hikayeler</strong> tasarlıyorum. Performans optimizasyonundan detaylı bölüm tasarımlarına kadar, oyun geliştirmenin her aşamasında sanatı ve teknik altyapıyı ustalıkla harmanlıyorum.",
-        skillsEyebrow: "TEÇHİZAT DEPOSU",
-        skillsTitle: "Teknoloji & Araçlar",
-        projectsEyebrow: "Projeler",
-        projectsTitle: "Play Store'da Keşfet",
-        alienDesc: "Galaksiler arası maceraya atıl ve sınırları zorla.",
-        lexyDesc: "15 farklı dil desteğiyle zamana karşı yarışarak kelimeleri patlat!",
-        chainDesc: "Aynı renkteki blokları patlatarak ilerlediğin sürükleyici bir bulmaca.",
-        footerRights: "© 2026 Mustafa Durmuş. Tüm Hakları Saklıdır.",
-        contactText: "İletişime Geç"
+        heroSubtitle: "Sürükleyici mekanikler, performans optimizasyonlu gerçek zamanlı mimariler ve interaktif dijital dünyalar tasarlayan Unity Geliştiricisi & Oyun Tasarımcısı.",
+        aboutEyebrow: "KREATİF VİZYON", aboutTitle: "Kodların Ötesinde",
+        aboutText: "Sadece kod yazmakla kalmıyor, oyuncuları içine çeken <strong class=\"text-white font-medium\">dünyalar, mekanikler ve hikayeler</strong> tasarlıyorum. Performans optimizasyonundan detaylı bölüm tasarımlarına kadar, oyun geliştirmenin her aşamasında sanatı ve teknik altyapıyı ustalıkla harmanlıyorum.",
+        
+        statPlayStore: "Play Store Yayınlanma",
+        statLocLangs: "Lokalizasyon Dili",
+        statFpsOpt: "Hedef Optimizasyon",
+        statCleanArch: "Temiz Mimari",
+
+        skillsEyebrow: "TEÇHİZAT DEPOSU", skillsTitle: "Teknoloji & Araçlar", projectsEyebrow: "PROJELER",
+        projectsTitle: "Play Store'da Keşfet", alienDesc: "Galaksiler arası maceraya atıl ve sınırları zorla.",
+        lexyDesc: "15 farklı dil desteğiyle zamana karşı yarışarak kelimeleri patlat!", chainDesc: "Aynı renkteki blokları patlatarak ilerlediğin sürükleyici bir bulmaca.",
+        footerRights: "© 2026 Mustafa Durmuş. Tüm Hakları Saklıdır.", contactText: "İletişime Geç"
       },
       en: {
-        navUniverse: "Universe",
-        navVision: "Vision",
-        navProjects: "Projects",
-        navContact: "Contact",
+        navUniverse: "Universe", navVision: "Vision", navSkills: "Skills", navProjects: "Projects", navContact: "Contact Me",
         warpHint: "[ HOLD FOR CYBER-WARP ]",
-        heroStatus: "SYSTEM ACTIVE // Connected to Developer Network",
-        aboutEyebrow: "Creative Vision",
-        aboutTitle: "Beyond The Code",
-        aboutText: "I don't just write code; I craft <strong>immersive worlds, mechanics, and stories</strong> that captivate players. From performance optimization to detailed level design, I masterfully blend art and technical infrastructure.",
-        skillsEyebrow: "EQUIPMENT STORE",
-        skillsTitle: "Tech & Tools",
-        projectsEyebrow: "Projects",
-        projectsTitle: "Discover on Play Store",
-        alienDesc: "Embark on an intergalactic adventure and push the boundaries.",
-        lexyDesc: "Race against time and pop words with 15 language options!",
-        chainDesc: "An engaging puzzle game where you blast matching colored blocks.",
-        footerRights: "© 2026 Mustafa Durmuş. All Rights Reserved.",
-        contactText: "Contact Me"
+        heroSubtitle: "Unity Developer & Game Designer crafting immersive mechanics, performance-optimized real-time architectures, and interactive digital worlds.",
+        aboutEyebrow: "CREATIVE VISION", aboutTitle: "Beyond The Code",
+        aboutText: "I don't just write code; I craft <strong class=\"text-white font-medium\">immersive worlds, mechanics, and stories</strong> that captivate players. From performance optimization to detailed level design, I masterfully blend art and technical infrastructure.",
+        
+        statPlayStore: "Play Store Launch",
+        statLocLangs: "Localization Languages",
+        statFpsOpt: "Target Optimization",
+        statCleanArch: "Clean Architecture",
+
+        skillsEyebrow: "EQUIPMENT STORE", skillsTitle: "Tech & Tools", projectsEyebrow: "PROJECTS",
+        projectsTitle: "Discover on Play Store", alienDesc: "Embark on an intergalactic adventure and push the boundaries.",
+        lexyDesc: "Race against time and pop words with 15 language options!", chainDesc: "An engaging puzzle game where you blast matching colored blocks.",
+        footerRights: "© 2026 Mustafa Durmuş. All Rights Reserved.", contactText: "Contact Me"
       },
       es: {
-        navUniverse: "Universo",
-        navVision: "Visión",
-        navProjects: "Proyectos",
-        navContact: "Contacto",
+        navUniverse: "Universo", navVision: "Visión", navSkills: "Habilidades", navProjects: "Proyectos", navContact: "Contacto",
         warpHint: "[ MANTÉN PRESIONADO PARA CYBER-WARP ]",
-        heroStatus: "SISTEMA ACTIVO // Conectado a la Red de Desarrolladores",
-        aboutEyebrow: "Visión Creativa",
-        aboutTitle: "Más Allá del Código",
-        aboutText: "No solo escribo código; creo <strong>mundos envolventes, mecánicas e historias</strong> que cautivan a los jugadores. Desde la optimización del rendimiento hasta el diseño detallado de niveles, combino el arte y la infraestructura técnica con maestría.",
-        skillsEyebrow: "DEPÓSITO DE EQUIPAMIENTO",
-        skillsTitle: "Tecnología y Herramientas",
-        projectsEyebrow: "Proyectos",
-        projectsTitle: "Descubre en Play Store",
-        alienDesc: "Embárcate en una aventura intergaláctica y desafía los límites.",
-        lexyDesc: "¡Compite contra el tiempo y explota palabras con soporte en 15 idiomas!",
-        chainDesc: "Un juego de rompecabezas adictivo donde explotas bloques del mismo color.",
-        footerRights: "© 2026 Mustafa Durmuş. Todos los derechos reservados.",
-        contactText: "Ponte en Contacto"
+        heroSubtitle: "Desarrollador de Unity y Diseñador de Juegos que crea mecánicas envolventes, arquitecturas en tiempo real optimizadas para el rendimiento y mundos digitales interactivos.",
+        aboutEyebrow: "VISIÓN CREATIVA", aboutTitle: "Más Allá del Código",
+        aboutText: "No solo escribo código; creo <strong class=\"text-white font-medium\">mundos envolventes, mecánicas e historias</strong> que cautivan a los jugadores. Desde la optimización del rendimiento hasta el diseño detallado de niveles.",
+        
+        statPlayStore: "Lanzamientos Play Store",
+        statLocLangs: "Idiomas de Localización",
+        statFpsOpt: "Optimización Objetivo",
+        statCleanArch: "Arquitectura Limpia",
+
+        skillsEyebrow: "DEPÓSITO DE EQUIPAMIENTO", skillsTitle: "Tecnología", projectsEyebrow: "PROYECTOS",
+        projectsTitle: "Descubre en Play Store", alienDesc: "Embárcate en una aventura intergaláctica y desafía los límites.",
+        lexyDesc: "¡Compite contra el tiempo y explota palabras con soporte en 15 idiomas!", chainDesc: "Un juego de rompecabezas adictivo donde explotas bloques.",
+        footerRights: "© 2026 Mustafa Durmuş. Todos los derechos reservados.", contactText: "Contacto"
+      },
+      da: {
+        navUniverse: "Univers", navVision: "Vision", navSkills: "Udstyr", navProjects: "Projekter", navContact: "Kontakt Mig",
+        warpHint: "[ HOLD FOR CYBER-WARP ]",
+        heroSubtitle: "Unity-udvikler og spildesigner, der skaber indlevende mekanikker, ydelsesoptimerede realtidsarkitekturer og interaktive digitale verdener.",
+        aboutEyebrow: "KREATIV VISION", aboutTitle: "Noget mere end kode",
+        aboutText: "Jeg skriver ikke bare kode; jeg skaber <strong class=\"text-white font-medium\">indlevende verdener, mekanikker og historier</strong>, der fanger spillere. Fra ydelsesoptimering til detaljeret banedesign.",
+        
+        statPlayStore: "Play Store Udgivelser",
+        statLocLangs: "Lokaliseringssprog",
+        statFpsOpt: "Måloptimering",
+        statCleanArch: "Ren Arkitektur",
+
+        skillsEyebrow: "UDSTYRSLAGER", skillsTitle: "Teknologi & Værktøjer", projectsEyebrow: "PROJEKTER",
+        projectsTitle: "Oplev på Play Store", alienDesc: "Tag på et intergalaktisk eventyr og skub til grænserne.",
+        lexyDesc: "Kæmp mod tiden og spræng ord med 15 sprogmuligheder!", chainDesc: "Et fængslende puslespil, hvor du sprænger matchende farvede brikker.",
+        footerRights: "© 2026 Mustafa Durmuş. Alle rettigheder forbeholdes.", contactText: "Kontakt Mig"
       }
     };
 
-    /* --- DROPDOWN MENÜ KONTROLLERİ --- */
-    function toggleLangMenu(event) {
-      event.stopPropagation();
-      const dropdown = document.getElementById('langDropdown');
-      const menu = document.getElementById('langMenu');
-      dropdown.classList.toggle('active');
-      menu.classList.toggle('show');
-    }
+    const checkSvg = `<svg class="w-3 h-3 text-coral shrink-0 ml-auto" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`;
 
-    function setLanguage(lang, event) {
-      if (event) event.stopPropagation();
+    function toggleLangMenu(event) { event.stopPropagation(); document.getElementById('langMenu').classList.toggle('hidden'); }
 
-      document.getElementById('current-lang').innerHTML = lang.toUpperCase();
-
-      document.querySelectorAll('.dropdown-item').forEach(btn => btn.classList.remove('active'));
-      const activeBtn = document.getElementById(`btn-${lang}`);
-      if (activeBtn) activeBtn.classList.add('active');
-
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
+    function applyTextRollEffect(lang) {
+      document.querySelectorAll('[data-i18n-roll]').forEach(el => {
+        const key = el.getAttribute('data-i18n-roll');
         if (i18nData[lang] && i18nData[lang][key]) {
-          el.innerHTML = i18nData[lang][key];
-        }
+          const text = i18nData[lang][key];
+          el.innerHTML = '';
+          el.classList.add('flex', 'overflow-hidden', 'h-[18px]');
+          text.split('').forEach((char, i) => {
+            const wrapper = document.createElement('span');
+            wrapper.className = 'roll-char flex flex-col transition-transform duration-500';
+            wrapper.style.transitionDelay = `${i * 0.02}s`;
+            const displayChar = char === ' ' ? '&nbsp;' : char;
+            wrapper.innerHTML = `<span class="h-[18px] flex items-center pointer-events-none">${displayChar}</span><span class="h-[18px] flex items-center text-coral font-bold pointer-events-none">${displayChar}</span>`;             el.appendChild(wrapper);           });         }       });     }      function setLanguage(lang, event) {       if (event) event.stopPropagation();       document.getElementById('current-lang-text').innerText = lang.toUpperCase();       document.querySelectorAll('#langMenu button').forEach(btn => {         btn.classList.remove('text-coral', 'bg-coral/10');         const langCode = btn.getAttribute('data-lang').toUpperCase();         btn.innerHTML = `<span>${langCode}</span>`;
       });
-
-      document.getElementById('langDropdown').classList.remove('active');
-      document.getElementById('langMenu').classList.remove('show');
-    }
-
-    document.addEventListener('click', function (event) {
-      const dropdown = document.getElementById('langDropdown');
-      const menu = document.getElementById('langMenu');
-      if (dropdown && !dropdown.contains(event.target)) {
-        dropdown.classList.remove('active');
-        menu.classList.remove('show');
+      const activeBtn = document.getElementById(`btn-${lang}`);       if (activeBtn) {         activeBtn.classList.add('text-coral', 'bg-coral/10');         activeBtn.innerHTML = `<span>${lang.toUpperCase()}</span>${checkSvg}`;       }       document.querySelectorAll('[data-i18n]').forEach(el => {         const key = el.getAttribute('data-i18n');         if (i18nData[lang] && i18nData[lang][key]) el.innerHTML = i18nData[lang][key];       });       applyTextRollEffect(lang);       document.getElementById('langMenu').classList.add('hidden');     }      document.addEventListener('click', (event) => {       const dropdown = document.getElementById('langDropdown');       if (dropdown && !dropdown.contains(event.target)) document.getElementById('langMenu').classList.add('hidden');     });      applyTextRollEffect('tr');      document.addEventListener('keydown', (e) => {       const dbgKey = document.getElementById('dbgKey');       if(dbgKey) dbgKey.innerText = `"${e.key}"`;
+      if(e.key === 'F12' || e.key === '`') {
+          const panel = document.getElementById('debugPanel');
+          if(panel) panel.classList.toggle('hidden');
       }
     });
 
-    /* --- 3D TILT EFEKTİ (GÖRSELDEKİ PENCERE HAREKETİ) --- */
-    document.querySelectorAll('.game-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = ((y - centerY) / centerY) * -14;
-        const rotateY = ((x - centerX) / centerX) * 14;
-        
-        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-      });
-    });
-
+    /* WARP CANVAS */
     const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-
     const canvas = document.getElementById('spaceCanvas');
     const ctx = canvas.getContext('2d');
     const shakeWrapper = document.getElementById('shakeWrapper');
-    let width, height;
-    let particles = [];
-    let mouse = {x: null, y: null, radius: isMobileDevice ? 80 : 120};
-    let isWarping = false;
-    let warpSpeed = 0;
+    let width, height, particles = [];
+    let mouse = { x: null, y: null, radius: isMobileDevice ? 80 : 120 };
+    let isWarping = false, warpSpeed = 0;
 
-    function resize() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-      init();
-    }
+    function resize() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; initParticles(); }
     window.addEventListener('resize', resize);
 
     if (!isMobileDevice) {
-      document.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      });
-      document.addEventListener('mouseout', () => {mouse.x = null; mouse.y = null;});
+      document.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      document.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
     }
-
-    const heroSection = document.getElementById('hero');
-    heroSection.addEventListener('mousedown', () => isWarping = true);
-    heroSection.addEventListener('mouseup', () => isWarping = false);
-    heroSection.addEventListener('mouseleave', () => isWarping = false);
-    heroSection.addEventListener('touchstart', () => isWarping = true, {passive: true});
-    heroSection.addEventListener('touchend', () => isWarping = false, {passive: true});
+    function checkWarpTarget(e) { return !(e.target.closest('a') || e.target.closest('button') || e.target.closest('#langDropdown') || e.target.closest('.raycast-key-card') || e.target.closest('.hero-badge-glass')); }
+    document.body.addEventListener('mousedown', (e) => { if (checkWarpTarget(e)) isWarping = true; });
+    document.body.addEventListener('mouseup', () => isWarping = false);
+    document.body.addEventListener('touchstart', (e) => { if (checkWarpTarget(e)) isWarping = true; }, { passive: true });
+    document.body.addEventListener('touchend', () => isWarping = false, { passive: true });
 
     class Particle {
-      constructor() {this.reset(true);}
+      constructor() { this.reset(true); }
       reset(initial = false) {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 1.2 + 0.3;
-        this.vx = (Math.random() - 0.5) * 0.3;
-        this.vy = (Math.random() - 0.5) * 0.3;
-        this.prevX = this.x;
-        this.prevY = this.y;
-        this.alpha = initial ? (Math.random() * 0.6 + 0.1) : 0;
-        this.targetAlpha = Math.random() * 0.6 + 0.2;
+        this.x = Math.random() * width; this.y = Math.random() * height;
+        this.size = Math.random() * 1.2 + 0.3; this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3;
+        this.prevX = this.x; this.prevY = this.y;
+        this.alpha = initial ? (Math.random() * 0.6 + 0.1) : 0; this.targetAlpha = Math.random() * 0.6 + 0.2;
       }
       update() {
-        this.prevX = this.x;
-        this.prevY = this.y;
-        let cx = width / 2;
-        let cy = height / 2;
-
+        this.prevX = this.x; this.prevY = this.y;
+        let cx = width / 2, cy = height / 2;
         if (this.alpha < this.targetAlpha) this.alpha += 0.015;
-
         if (warpSpeed > 1.5) {
-          let dx = this.x - cx;
-          let dy = this.y - cy;
-          let angle = Math.atan2(dy, dx);
-          let dist = Math.sqrt(dx * dx + dy * dy) || 1;
-
-          this.x += Math.cos(angle) * (warpSpeed + dist * 0.035);
-          this.y += Math.sin(angle) * (warpSpeed + dist * 0.035);
-
+          let dx = this.x - cx, dy = this.y - cy;
+          let angle = Math.atan2(dy, dx), dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          this.x += Math.cos(angle) * (warpSpeed + dist * 0.035); this.y += Math.sin(angle) * (warpSpeed + dist * 0.035);
           if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
-            let resetAngle = Math.random() * Math.PI * 2;
-            let r = Math.random() * (width * 0.08);
-            this.x = cx + Math.cos(resetAngle) * r;
-            this.y = cy + Math.sin(resetAngle) * r;
-            this.prevX = this.x;
-            this.prevY = this.y;
-            this.alpha = 0;
-            this.targetAlpha = Math.random() * 0.7 + 0.3;
+            let resetAngle = Math.random() * Math.PI * 2, r = Math.random() * (width * 0.08);
+            this.x = cx + Math.cos(resetAngle) * r; this.y = cy + Math.sin(resetAngle) * r;
+            this.prevX = this.x; this.prevY = this.y; this.alpha = 0; this.targetAlpha = Math.random() * 0.7 + 0.3;
           }
         } else {
-          this.x += this.vx;
-          this.y += this.vy;
+          this.x += this.vx; this.y += this.vy;
           if (this.x > width || this.x < 0) this.vx = -this.vx;
           if (this.y > height || this.y < 0) this.vy = -this.vy;
-
           if (!isMobileDevice && mouse.x != null) {
-            let dx = mouse.x - this.x;
-            let dy = mouse.y - this.y;
-            let distSq = dx * dx + dy * dy;
-            let radiusSq = mouse.radius * mouse.radius;
-
+            let dx = mouse.x - this.x, dy = mouse.y - this.y;
+            let distSq = dx * dx + dy * dy, radiusSq = mouse.radius * mouse.radius;
             if (distSq < radiusSq) {
-              let distance = Math.sqrt(distSq);
-              let force = (mouse.radius - distance) / mouse.radius;
-              this.x -= (dx / distance) * force * 1.5;
-              this.y -= (dy / distance) * force * 1.5;
+              let distance = Math.sqrt(distSq), force = (mouse.radius - distance) / mouse.radius;
+              this.x -= (dx / distance) * force * 1.5; this.y -= (dy / distance) * force * 1.5;
             }
           }
         }
       }
       draw() {
         if (warpSpeed > 2.5) {
-          ctx.beginPath();
-          ctx.moveTo(this.prevX, this.prevY);
-          ctx.lineTo(this.x, this.y);
+          ctx.beginPath(); ctx.moveTo(this.prevX, this.prevY); ctx.lineTo(this.x, this.y);
           let warpAlpha = Math.min(1, warpSpeed / 10);
-          ctx.strokeStyle = `rgba(34, 211, 238, ${this.alpha * warpAlpha})`;
-          ctx.lineWidth = this.size * 1.5;
-          ctx.stroke();
+          ctx.strokeStyle = `rgba(255, 99, 99, ${this.alpha * warpAlpha})`; ctx.lineWidth = this.size * 1.5; ctx.stroke();
         } else {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(45, 212, 191, ${this.alpha})`;
-          ctx.fill();
+          ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 99, 99, ${this.alpha})`; ctx.fill();
         }
       }
     }
-
-    function init() {
+    function initParticles() {
       particles = [];
-      let maxParticles = isMobileDevice ? 30 : 110;
-      let density = isMobileDevice ? 22000 : 10000;
+      let maxParticles = isMobileDevice ? 30 : 90, density = isMobileDevice ? 22000 : 11000;
       let numberOfParticles = Math.min(Math.floor((width * height) / density), maxParticles);
       for (let i = 0; i < numberOfParticles; i++) particles.push(new Particle());
     }
-
-    function animate() {
-      requestAnimationFrame(animate);
-      ctx.clearRect(0, 0, width, height);
-
-      if (isWarping) warpSpeed += (28 - warpSpeed) * 0.08;
-      else warpSpeed += (0 - warpSpeed) * 0.1;
-
-      if (warpSpeed > 10) {
-        let shakeX = (Math.random() - 0.5) * (warpSpeed * 0.12);
-        let shakeY = (Math.random() - 0.5) * (warpSpeed * 0.12);
+    function animateParticles() {
+      requestAnimationFrame(animateParticles); ctx.clearRect(0, 0, width, height);
+      if (isWarping) warpSpeed += (28 - warpSpeed) * 0.08; else warpSpeed += (0 - warpSpeed) * 0.1;
+      if (warpSpeed > 10 && shakeWrapper) {
+        let shakeX = (Math.random() - 0.5) * (warpSpeed * 0.1), shakeY = (Math.random() - 0.5) * (warpSpeed * 0.1);
         shakeWrapper.style.transform = `translate(${shakeX}px, ${shakeY}px)`;
-      } else {
-        shakeWrapper.style.transform = `translate(0px, 0px)`;
-      }
-
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-      }
-
+      } else if (shakeWrapper) { shakeWrapper.style.transform = `translate(0px, 0px)`; }
+      for (let i = 0; i < particles.length; i++) { particles[i].update(); particles[i].draw(); }
       if (warpSpeed < 2) {
-        ctx.lineWidth = 0.8;
-        let connectDistSq = isMobileDevice ? 6400 : 12100;
+        ctx.lineWidth = 0.8; let connectDistSq = isMobileDevice ? 6400 : 12100;
         for (let i = 0; i < particles.length; i++) {
           for (let j = i + 1; j < particles.length; j++) {
-            let dx = particles[i].x - particles[j].x;
-            let dy = particles[i].y - particles[j].y;
-            let distSq = dx * dx + dy * dy;
-
+            let dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y, distSq = dx * dx + dy * dy;
             if (distSq < connectDistSq) {
-              let distance = Math.sqrt(distSq);
-              ctx.beginPath();
+              let distance = Math.sqrt(distSq); ctx.beginPath();
               let baseAlpha = (0.15 - distance / 110) * (1 - Math.max(0, warpSpeed / 2));
               let minAlpha = Math.min(particles[i].alpha, particles[j].alpha);
-              ctx.strokeStyle = `rgba(45, 212, 191, ${baseAlpha * (minAlpha * 2)})`;
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y); // HATA BURADA DÜZELTİLDİ
-              ctx.stroke();
+              ctx.strokeStyle = `rgba(255, 99, 99, ${baseAlpha * (minAlpha * 2.5)})`;
+              ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
             }
           }
         }
       }
     }
+    resize(); animateParticles();
 
-    resize();
-    animate();
+    /* 3D TILT EFEKTİ */
+    document.querySelectorAll('.game-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+        const centerX = rect.width / 2; const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
 
-    const observerOptions = {root: null, rootMargin: '0px', threshold: 0.15};
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-          observer.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) { entry.target.classList.add('show-reveal'); observer.unobserve(entry.target); }
       });
     }, observerOptions);
-    const hiddenElements = document.querySelectorAll('.hidden');
-    hiddenElements.forEach((el) => observer.observe(el));
+    document.querySelectorAll('.hidden-reveal').forEach(el => observer.observe(el));
   </script>
-
 </body>
-
 </html>
